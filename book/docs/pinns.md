@@ -11,7 +11,7 @@ El mecanismo de las redes neuronales informadas por física se puede seccionar e
 
 $$
 \begin{equation*}
-    \frac{du}{dt} = f(t,u;\lambda) \hspace{10mm};  B(t,u) = g(t)
+    \frac{du}{dt} = f(t,u;\lambda); \hspace{1mm} B(t,u) = g(t),
 \end{equation*}
 $$
 
@@ -31,7 +31,7 @@ La idea central de las PINNs se basa en la construcción de una función de pér
 
 $$
 \begin{equation*}
-\mathcal{L}(\theta,\lambda)=w_D\mathcal{L}_D(\theta)+w_F\mathcal{L}_F(\theta,\lambda)+w_B\mathcal{L}_B(\theta)    
+\mathcal{L}(\theta,\lambda)=w_D\mathcal{L}_D(\theta)+w_F\mathcal{L}_F(\theta,\lambda)+w_B\mathcal{L}_B(\theta),
 \end{equation*}
 $$
 
@@ -41,7 +41,7 @@ El término asociado a las ecuaciones gobernantes se define como
 
 $$
 \begin{equation*}
-\mathcal{L}_F(\theta,\lambda)=\frac{1}{|T_F|}\sum_{t\in T_F}||\frac{d\hat{u}_\theta}{dt}-f(t,\hat{u};\lambda)||^2
+\mathcal{L}_F(\theta,\lambda)=\frac{1}{|T_F|}\sum_{t\in T_F}||\frac{d\hat{u}_\theta}{dt}-f(t,\hat{u};\lambda)||^2,
 \end{equation*}
 $$
 
@@ -49,7 +49,7 @@ donde $\hat{u}$ es la salida de la red neuronal y$\lambda$ corresponde a paráme
 
 $$
 \begin{equation*}
-\mathcal{L}_B(\theta)=\frac{1}{|T_B|}\sum_{t_i\in T_B}||\mathcal{B}(\hat{u}_\theta,t_i)-g(t_i)||^2
+\mathcal{L}_B(\theta)=\frac{1}{|T_B|}\sum_{t_i\in T_B}||\mathcal{B}(\hat{u}_\theta,t_i)-g(t_i)||^2,
 \end{equation*}
 $$
 
@@ -58,7 +58,7 @@ asegurando que la solución aprendida sea consistente con las condiciones experi
 $$
 \begin{equation*}
     \mathcal{L}_D(\theta)=\frac{1}{|T_D|}\sum_{t_i\in T_D}||\hat{u}_\theta(t_i)-x_i||^2
-\end{equation*}
+\end{equation*},
 $$
 
 donde $x_i$ es el dato observado en el instante $t_i$.

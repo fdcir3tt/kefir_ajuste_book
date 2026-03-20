@@ -7,14 +7,14 @@ El modelo Malthusiano asume que la tasa de crecimiento es proporcional al tamañ
 
 ```{math}
 :label: rates
-b(t)=\beta P(t), \quad d(t)=\delta P(t)
+b(t)=\beta P(t), \quad d(t)=\delta P(t).
 ```
 
 De aquí, se plantea que la taza en la que cambia el tamaño de población se da por la diferencia entre las tazas de nacimiento y muerte:
 
 $$
 \begin{equation*}
-\frac{dP}{dt}=b(t)-d(t)
+\frac{dP}{dt}=b(t)-d(t).
 \end{equation*}
 $$
 
@@ -22,14 +22,14 @@ Teniendo en mente las expresiones de {eq}`rates` , obtenemos la ecuación
 
 ```{math}
 :label: exponential
-\frac{dP}{dt}=rP(t)
+\frac{dP}{dt}=rP(t).
 ```
 
 Donde $r=\beta-\delta$ es una constante real. El modelo Veltusiano también considera las mismas premisas y la forma de {eq}`exponential`, solo cambian  $b(t)$ y $d(t)$. Con este modelo se considera que el cociente $b(t)/P(t)$ en vez de mantenerse constante, se considera que este decrese linealmente con respecto a la población: $b(t)/P(t)=\beta - k_\beta P(t)$ . De manera similar con la taza de muerte. Como consecuencia, obtenemos:
 
 $$
 \begin{equation*}
-b(t)=(\beta - k_{\beta}P) P ,\hspace{5mm} d(t)=(\delta + k_{\delta}P) P
+b(t)=(\beta - k_{\beta}P) P ,\hspace{5mm} d(t)=(\delta + k_{\delta}P) P.
 \end{equation*}
 $$
 
@@ -40,7 +40,7 @@ Teniendo esto en mente, obtenemos
 \begin{align}
 \frac{dP}{dt} &= (\beta - k_{\beta}P) P - (\delta + k_{\delta}P) P \\
 &= (\beta - \delta - (k_{\beta}+k_{\delta})P) P \\
-&= (\beta - \delta)\left(1 - \frac{k_{\beta}+k_{\delta}}{\beta - \delta} P \right) P
+&= (\beta - \delta)\left(1 - \frac{k_{\beta}+k_{\delta}}{\beta - \delta} P \right) P.
 \end{align}
 ```
 
@@ -49,13 +49,13 @@ Para incorporar estas restricciones, el modelo logístico introduce una capacida
 
 $$
 \begin{equation*}
-\frac{dP}{dt}=rP(1-\frac{P}{m})
+\frac{dP}{dt}=rP(1-\frac{P}{m}),
 \end{equation*}
 $$
 
 $$
 \begin{equation*}
-    r=\beta -\delta,\hspace{5mm}m=\frac{\beta -\delta}{k_{\beta}+k_{\delta}}
+    r=\beta -\delta,\hspace{5mm}m=\frac{\beta -\delta}{k_{\beta}+k_{\delta}}.
 \end{equation*}
 $$
 
@@ -69,7 +69,7 @@ El modelo de Gompertz ofrece una alternativa más flexible para describir el cre
 
 ```{math}
 :label: gompertz
-\frac{dP}{dt}=rP\hspace{0.5mm}ln(\frac{m}{P})
+\frac{dP}{dt}=rP\hspace{0.5mm}ln(\frac{m}{P}).
 ``` 
 
 

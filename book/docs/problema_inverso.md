@@ -10,7 +10,7 @@ El procedimiento general consiste en imponer las ecuaciones gobernantes del crec
 La principal diferencia entre la formulación de problemas directos e inversos dentro del marco PINN radica en la función de pérdida, que en el caso inverso incorpora explícitamente términos asociados a los datos observados. Una formulación típica es
 
 ```{math}
- \mathcal{L}(\theta,\lambda;T)=w_f\mathcal{L}_f(\theta,\lambda;T_f)+w_b\mathcal{L}_b(\theta,\lambda;T_b)+w_i\mathcal{L}_i(\theta,\lambda;T_i)
+ \mathcal{L}(\theta,\lambda;T)=w_f\mathcal{L}_f(\theta,\lambda;T_f)+w_b\mathcal{L}_b(\theta,\lambda;T_b)+w_i\mathcal{L}_i(\theta,\lambda;T_i),
 ```
 
 
@@ -18,7 +18,7 @@ La principal diferencia entre la formulación de problemas directos e inversos d
 donde $\theta$ son los parámetros de la red neuronal y $\lambda$ representa los parámetros físicos o biológicos a estimar. El término de información experimental se define como
 
 ```{math}
-\mathcal{L}_i(\theta,\lambda;T_i)=\frac{1}{|T_i|}\sum_{x\in T_i}||\mathcal{I}(\hat{u},x)||^2_2
+\mathcal{L}_i(\theta,\lambda;T_i)=\frac{1}{|T_i|}\sum_{x\in T_i}||\mathcal{I}(\hat{u},x)||^2_2,
 ```
 
 asegurando la compatibilidad entre la solución reconstruida y las mediciones experimentales disponibles.
