@@ -9,11 +9,16 @@ Los resultados obtenidos mediante RK4 mostraron una **alta concordancia entre la
 ```
 
 ## Ajuste de PINN
-Adicionalmente, se logró **ajustar una Red Neuronal Informada por la Física (Physics-Informed Neural Network, PINN)** a los mismos datos experimentales de crecimiento, utilizando igualmente el **modelo de Gompertz como restricción física**.
+Adicionalmente, se logró **ajustar una Red Neuronal Informada por la Física (Physics-Informed Neural Network, PINN)** a los mismos datos experimentales de crecimiento, utilizando igualmente el **modelo logístico como restricción física**.
 
-```{figure} /images/ajuste_PINN_Gompertz.png
+```{figure} /images/solution_plot.png
 :width: 72%
 ```
+| Parámetro | Estimación | Real | Error absoluto | Error relativo %|
+|-----------|------------|------|----------------|-----------------|
+|     r     |   0.0491   | 0.046|     0.0031     |      6.74       |
+|     m     |   46.70    | 47.81|       1.11     |      2.32       |
+
 
  
 El PINN incorporó la ecuación diferencial del modelo dentro de su función de pérdida, permitiendo que la red aprendiera el comportamiento del sistema respetando las leyes que gobiernan su dinámica.
