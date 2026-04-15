@@ -6,6 +6,7 @@ chapters:
   - file: docs/modelos
   - file: docs/pinns
   - file: docs/problema_inverso
+  - file: docs/mlflow
   - file: docs/entrenamiento
   - file: docs/problema_directo
   - file: docs/metricas
