@@ -19,20 +19,20 @@ En este caso particular, la desviación depende de variables de control $I$ y $T
 
 # Dinámicas propuestas
 Para modelar la dinámica oculta \delta, se consideraron distintas aproximaciones:
-- **Modelos multipolinomiales**: donde \delta se expresa como una combinación de términos polinomiales con coeficientes ajustables.
+- **Modelos multipolinomiales**: donde $\delta$ se expresa como una combinación de términos polinomiales con coeficientes ajustables.
 
 $$
 \delta(I,T;c_j) = \sum_{j=0}^{N}c_j I^{a_j} T^{b_j},
 $$
 
 
--  **Modelos de Intensidad**: que representan la dinámica mediante sumas de funciones sinusoidales, caracterizadas por amplitudes y frecuencias.
+-  **Modelos de Intensidad**: $\delta$ se representa por la multiplicación de un término de interacción entre la intensidad $I$ y periodo de exposición $T$ por un termino senoidal tomando en cuenta el periodo de aplicación de tratamiento (15 horas).
 
 $$
 \delta(t,I,T;c_j) = (c_1 + c_2I+c_3T+c_4IT)*sin(\frac{2\pi}{15}t),
 $$
 
-- **Modelo de red + regresión**: que combinan una red neuronal con una función de corrección explícita, buscando capturar tanto patrones conocidos como comportamientos no estructurados.
+- **Modelo de red + regresión**: que combinan una red neuronal buscando capturar comportamientos no estructurados y después extraer patrones esperados con un método de regresión.
 $$
 \delta(t;c_j=\theta) = NN_\theta(t),
 $$
