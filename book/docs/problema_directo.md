@@ -16,8 +16,8 @@ Adicionalmente, se logró **ajustar una Red Neuronal Informada por la Física (P
 ```
 | Parámetro | Estimación | Real | Error absoluto | Error relativo %|
 |-----------|------------|------|----------------|-----------------|
-|     r     |   0.0491   | 0.046|     0.0031     |      6.74       |
-|     m     |   46.70    | 47.81|       1.11     |      2.32       |
+|     r (1/hr)  |   0.0491   | 0.046|     0.0031     |      6.74       |
+|     m (g/L)   |   46.70    | 47.81|       1.11     |      2.32       |
 
 
  
