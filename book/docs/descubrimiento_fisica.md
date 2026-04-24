@@ -45,9 +45,62 @@ $$
 $$
 donde la función de residuos es:
 $$
-f(\hat P,t;c_j) = \frac{d\hat P}{dt} -\mathcal{F}(\hat P,t;\lambda)-\delta(t,P,I,T;c_j) ,
+f(\hat P,t;c_j) = \frac{d\hat P}{dt} -\mathcal{F}(\hat P,t;\lambda)-\delta(t,P,I,T;c_j) .
 $$
 
+Primero, cargamos nuestros datos de entrada `(t,I,T)`: 
+```python
+    
+t0,y0 = load_initial_conditions(dataset)
+t0,tf = load_time_domain(dataset)
+
+X_train, y_train, X_test,y_test = split_train_data(dataset)
+```
+Y se define el método `ode` que nos sirve como auxiliar de la función de residuos $f(\hat P,t;c_j)$:
+```python    
+
+def ode(x, y):
+    I_t = x[:, 0:1]
+    T_t = x[:, 1:2]
+    t = x[:, 2:3]
+
+    delta = correction_function(I_t, T_t, c_coef,t,**kwargs)
+
+    return equation(x,y)- delta
+```
+
+Definimos el dominio de datos que se utilizarán para el entrenamiento de nuestra red nueva:
+
+```python  
+t_min, t_max = float(t0), float(tf)
+I_min, I_max = X_train[:, 0].min(), X_train[:, 0].max()
+T_min, T_max = X_train[:, 1].min(), X_train[:, 1].max()
+    
+geom_space = dde.geometry.Rectangle([I_min, T_min],
+                                    [I_max, T_max])
+
+timedomain = dde.geometry.TimeDomain(t_min, t_max)
+geom = dde.geometry.GeometryXTime(geom_space, timedomain)
+
+#  >Método de colocación<
+
+observe_bc = dde.icbc.PointSetBC(anchor_X.astype(np.float32),
+                                 observe_y.astype(np.float32),
+                                 component=0,
+                                 shuffle=False)
+data_pinn = dde.data.PDE(geometry=geom,
+                         pde=ode,
+                         bcs=[observe_bc],
+                         num_domain=200,       
+                         num_boundary=0,
+                         anchors=anchor_X.astype(np.float32))
+```
+y cambiamos la capa de entrada para que pueda recibir datos de forma `(t,I,T)`
+
+```python
+net = dde.nn.FNN([3, 50, 50, 50, 1], "tanh", "Glorot uniform")
+
+```
 
 
-
+# Resultados

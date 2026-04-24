@@ -19,6 +19,8 @@ $$
 
 A partir de datos experimentales parciales —las series de tiempo del crecimiento de los gránulos de kéfir—, la red se entrena para encontrar simultáneamente una solución consistente con los datos y un conjunto de parámetros que satisfagan la estructura física del sistema.
 
+## Construcción de la función de perdida
+
 La principal diferencia entre la formulación de problemas directos e inversos dentro del marco PINN radica en la función de pérdida, que en el caso inverso incorpora explícitamente términos asociados a los datos observados. Una formulación típica es
 
 $$
@@ -50,7 +52,12 @@ f(\hat P,t;\kappa,L) = \frac{d\hat P}{dt} -\kappa\hat P( 1- \frac{1}{L}\hat P ) 
 $$
 
 
-y la derivada de $\hat P$ se cálcula utilizando un método númerico de diferenciación automátizada. Aquí, queremos estimar valores puntuales de los parametros $\kappa$ y $L$. Con el apoyo de la paquetería [DeepXDE](), podemos lograr esto definiendo las variables `kappa`  y `L` como variables entrenables partiendo de un valor inicial que queramos de cual partir: 
+y la derivada de $\hat P$ se cálcula utilizando un método númerico de diferenciación automátizada. Aquí, queremos estimar valores puntuales de los parametros $\kappa$ y $L$.
+
+En resumen, las PINNs ofrecen un marco unificado para abordar problemas directos e inversos de manera coherente, integrando datos experimentales y conocimiento físico-biológico. En este proyecto, el interés principal se centra en la resolución del problema inverso, orientado a la identificación de parámetros y dinámicas ocultas asociadas al crecimiento microbiano del kéfir de agua bajo distintos pretratamientos.
+
+## Implementación de DeepXDE 
+Con el apoyo de la paquetería [DeepXDE](), podemos lograr esto definiendo las variables `kappa`  y `L` como variables entrenables partiendo de un valor inicial que queramos de cual partir: 
 
 ```python
 import deepxde as dde
@@ -59,12 +66,69 @@ import deepxde as dde
 kappa = dde.Variable(0.04)
 L = dde.Variable(51.0)
 
-def ode(t, P):
-        dP_dt = dde.grad.jacobian(P, t, i=0, j=0)
-    return (dP_dt- kappa * P * (1 - P / L))
+def verhulst_eq(x, y):
+        dy_dt = dde.grad.jacobian(y, x, i=0, j=0)
+    return (dy_dt- kappa * y * (1 - y / L))
 ```
-De esta manera, al momento de compilar y entrenar el PINN, se aprenden tanto los parametros $\theta$ de la red neuronal como los parametros $\kappa$ y $L$. 
+De esta manera, al momento de compilar y entrenar el PINN, se aprenden tanto los parametros $\theta$ de la red neuronal como los parametros $\kappa$ y $L$.
+
+```python
+from kefir_ajuste.trainers import verhulst
+
+model_equation = verhulst
+run_name = f"{model_equation.__name__}_{LEARNING_RATE}_{EPOCHS}"
+with mlflow.start_run(run_name=run_name):
+    mlflow.log_param("epochs", EPOCHS)
+    mlflow.log_param("learning_rate", LEARNING_RATE)
+
+    model, loss_history,learned_parameters, y_true, y_pred = model_equation(dataset=dataset,
+                                                                            epochs=EPOCHS,lr=LEARNING_RATE,          collocation_method=collocation_method)
+                                            
+```
+
+donde primero definimos el espacio de datos de entrenamiento que se utilizaran para la PINN:
+
+```python
+
+geom = dde.geometry.TimeDomain(t0, tf)
+ic = dde.icbc.IC(geom,
+                 lambda t: y0,
+                 lambda _, on_initial: on_initial)
+
+data_pinn = dde.data.PDE(geometry=geom,
+                         pde=ode,
+                         bcs=[ observe_bc],
+                         num_domain=200,
+                         num_boundary=2,
+                         num_test=100,
+                         anchors=anchor_t)
+```
+
+Después, definimos la arquitectura de nuestra red neuronal de dirección directa, pero especificando qué parametros queremos aprender aparte de los pesos de las funciones de activación utilizando la variable `external_trainable_variables`:
+
+```python
+layer_size = [1, 50, 50, 50, 1]
+net = dde.nn.FNN(layer_size,
+                 activation="tanh",
+                 kernel_initializer="Glorot uniform")
+
+model = dde.Model(data_pinn, net)
+model.compile(optimizer="adam",
+              loss="MSE",
+              lr=lr,
+              external_trainable_variables=[kappa, L])
+```
+
+Finalmente, definimos cómo guardar los valores aprendidos durante el entrenamiento de nuestra red, utilizando el método `dde.callbacks.VariableValue`:
+```python
+
+variable = dde.callbacks.VariableValue(var_list=[kappa,L], 
+                                       period=600, 
+                                       filename=VARIABLES_PATH)
+callbacks = [variable]
+
+loss_history, _ = model.train(iterations=epochs,
+                              callbacks=callbacks)
+```
 
 
-
-En resumen, las PINNs ofrecen un marco unificado para abordar problemas directos e inversos de manera coherente, integrando datos experimentales y conocimiento físico-biológico. En este proyecto, el interés principal se centra en la resolución del problema inverso, orientado a la identificación de parámetros y dinámicas ocultas asociadas al crecimiento microbiano del kéfir de agua bajo distintos pretratamientos.
