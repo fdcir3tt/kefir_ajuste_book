@@ -18,7 +18,7 @@ En este caso particular, la desviación depende de variables de control $I$ y $T
 
 
 # Dinámicas propuestas
-Para modelar la dinámica oculta \delta, se consideraron distintas aproximaciones:
+Para modelar la dinámica oculta $\delta$, se consideraron distintas aproximaciones:
 - **Modelos multipolinomiales**: donde $\delta$ se expresa como una combinación de términos polinomiales con coeficientes ajustables.
 
 $$
@@ -26,13 +26,14 @@ $$
 $$
 
 
--  **Modelos de Intensidad**: $\delta$ se representa por la multiplicación de un término de interacción entre la intensidad $I$ y periodo de exposición $T$ por un termino senoidal tomando en cuenta el periodo de aplicación de tratamiento (15 horas).
+-  **Modelos de Intensidad por periodos**: $\delta$ se representa por la multiplicación de un término de interacción entre la intensidad $I$ y periodo de exposición $T$ por un termino senoidal tomando en cuenta el periodo de aplicación de tratamiento (15 horas).
 
 $$
-\delta(t,I,T;c_j) = (c_1 + c_2I+c_3T+c_4IT)*sin(\frac{2\pi}{15}t),
+\delta(t,I,T;c_j) = (c_1 + c_2I+c_3T+c_4IT)*sin(\frac{2\pi}{12}t),
 $$
 
 - **Modelo de red + regresión**: que combinan una red neuronal buscando capturar comportamientos no estructurados y después extraer patrones esperados con un método de regresión.
+
 $$
 \delta(t;c_j=\theta) = NN_\theta(t),
 $$
@@ -104,3 +105,25 @@ net = dde.nn.FNN([3, 50, 50, 50, 1], "tanh", "Glorot uniform")
 
 
 # Resultados
+
+El mejor resultado del proceso de descubrimiento de física vino siendo producto del entrenamiento de PINN con la función de corrección de intensidad por periodos. Se puede visualizar el desempeño del modelo en la siguientes imagenes: 
+
+```{figure} /images/best_disc_results_0.png
+:width: 72%
+```
+
+```{figure} /images/best_disc_results_1.png
+:width: 72%
+```
+
+```{figure} /images/best_disc_results_2.png
+:width: 72%
+```
+
+```{figure} /images/best_disc_results_3.png
+:width: 72%
+```
+
+```{figure} /images/best_disc_results_4.png
+:width: 72%
+```
