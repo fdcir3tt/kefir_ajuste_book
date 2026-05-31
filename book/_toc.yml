@@ -5,10 +5,9 @@ chapters:
   - file: docs/fuente_de_datos
   - file: docs/modelos
   - file: docs/pinns
-  - file: docs/problema_inverso
-  - file: docs/mlflow
-  - file: docs/descubrimiento_fisica
   - file: docs/entrenamiento
+  - file: docs/mlflow
   - file: docs/problema_directo
-  - file: docs/metricas
+  - file: docs/problema_inverso
+  - file: docs/descubrimiento_fisica
   - file: docs/bibliografia
