@@ -45,6 +45,18 @@ files = [
 ]
 
 [[package]]
+name = "astroid"
+version = "4.1.2"
+description = "An abstract syntax tree for Python with inference support."
+optional = false
+python-versions = ">=3.10.0"
+groups = ["main"]
+files = [
+    {file = "astroid-4.1.2-py3-none-any.whl", hash = "sha256:21312e682c0866dc5a309ee57e4b88ea92751b9955a58b1c31371cbbeb088707"},
+    {file = "astroid-4.1.2.tar.gz", hash = "sha256:d6c4a52bfcda4bbeb7359dead642b0248b90f7d9a07e690230bd86fefd6d37f1"},
+]
+
+[[package]]
 name = "asttokens"
 version = "3.0.1"
 description = "Annotate AST trees with source code positions"
@@ -1905,6 +1917,24 @@ lint = ["flake8 (>=6.0)", "importlib-metadata (>=6.0)", "mypy (==1.10.1)", "pyte
 test = ["cython (>=3.0)", "defusedxml (>=0.7.1)", "pytest (>=8.0)", "setuptools (>=70.0)", "typing_extensions (>=4.9)"]
 
 [[package]]
+name = "sphinx-autoapi"
+version = "3.8.0"
+description = "Sphinx API documentation generator"
+optional = false
+python-versions = ">=3.10"
+groups = ["main"]
+files = [
+    {file = "sphinx_autoapi-3.8.0-py3-none-any.whl", hash = "sha256:245aefdeab85609ae4aa3576b0d99f69676aa6333dda438761bd125755b3c42d"},
+    {file = "sphinx_autoapi-3.8.0.tar.gz", hash = "sha256:9f8ac7d43baf28a0831ac0e392fab6a095b875af07e52d135a5f716cc3cf1142"},
+]
+
+[package.dependencies]
+astroid = ">=3.0"
+Jinja2 = "*"
+PyYAML = "*"
+sphinx = ">=7.4.0"
+
+[[package]]
 name = "sphinx-book-theme"
 version = "1.2.0"
 description = "A clean book theme for scientific explanations and documentation with Sphinx"
@@ -2488,4 +2518,4 @@ type = ["pytest-mypy"]
 [metadata]
 lock-version = "2.1"
 python-versions = ">=3.12,<4.0"
-content-hash = "bc28ef221b9b0eaf2d9faf0b0628d8314aad5c565354c72baecd9cc6dc083220"
+content-hash = "283a59a33c1fd585567a4c6aec99354fe5d5cdb9ceb4f5689f1b70c5a39961c5"
