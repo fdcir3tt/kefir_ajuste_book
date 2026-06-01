@@ -27,8 +27,20 @@ latex:
   mathjax: true
 
 sphinx:
-  config:
-      bibtex_reference_style: author_year
-      bibtex_default_style: unsrt 
   extra_extensions:
     - sphinxcontrib.bibtex
+    - sphinx.ext.autodoc
+    - sphinx.ext.napoleon
+    - sphinx.ext.viewcode
+  config:
+    add_module_names: False
+    bibtex_reference_style: author_year
+    bibtex_default_style: unsrt
+    autodoc_default_options:
+      members: true
+      undoc-members: true
+      show-inheritance: true
+    confoverrides:
+      sys_path:
+        - "/Users/federicocirett/Documents/GitHub/kefir_ajuste_book/src/kefir_ajuste/src"
+        - "/Users/federicocirett/Documents/GitHub/kefir_ajuste_book/src/kefir_ajuste/scripts"

@@ -6,15 +6,18 @@ authors = [
     {name = "fdcir3tt",email = "fd.cirett@gmail.com"}
 ]
 readme = "README.md"
-requires-python = ">=3.12,<4.0"
+requires-python = ">=3.12,<3.15"
 dependencies = [
     "jupyter-book (==1.0.4)",
     "ghp-import (>=2.1.0,<3.0.0)",
     "sphinx (>=7.0.0,<8.0.0)",
     "sphinx-autoapi (>=3.8.0,<4.0.0)",
+    "kefir-ajuste @ file:///Users/federicocirett/Documents/GitHub/kefir_ajuste_book/src/kefir_ajuste",
 ]
 
 
 [build-system]
 requires = ["poetry-core>=2.0.0,<3.0.0"]
 build-backend = "poetry.core.masonry.api"
+[tool.poetry.dependencies]
+kefir-ajuste = {develop = true}
