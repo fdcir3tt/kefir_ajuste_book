@@ -6,19 +6,22 @@ Al analizar los datos bajo ciertas condiciones de tratamiento, se observa una de
 
 # PINNs: Una herramienta imprevista 
 Las redes neuronales informadas por física (PINNs) permiten integrar conocimiento previo directamente en el proceso de entrenamiento mediante restricciones basadas en ecuaciones diferenciales. Esta característica no solo mejora la consistencia del modelo, sino que también abre la posibilidad de aprender dinámicas ocultas presentes en los datos.
-Bajo este enfoque, se asume que un conjunto de datos $X=\{C_n, \mathcal{D}\}$ sigue una dinámica conocida con pequeñas desviaciones. Esto se modela como:
+Bajo este enfoque, se asume que un conjunto de datos $X=\{C, \mathcal{D}\}$ sigue una dinámica conocida con pequeñas desviaciones. Esto se modela como:
+```math
 
-$$
- \frac{dP}{dt} = \mathcal{F}(t,P;\lambda) +\delta(t,P,I,T;c_j)
-$$
-
+\begin{equation*}
+:label: general_correction_eq
+ \frac{dP}{dt} = f(t,P;\phi) +\delta(t,P,I,T;c_j)
+\end{equation*}
+```
 donde el término $\delta$ representa la contribución desconocida que se desea identificar.
+
 En este caso particular, la desviación depende de variables de control $I$ y $T$ lo que requiere adaptar tanto la arquitectura de la red como la estructura del conjunto de datos para capturar adecuadamente estas dependencias.
 
 
-
-# Dinámicas propuestas
+# Funciones propuestas
 Para modelar la dinámica oculta $\delta$, se consideraron distintas aproximaciones:
+
 - **Modelos multipolinomiales**: donde $\delta$ se expresa como una combinación de términos polinomiales con coeficientes ajustables.
 
 $$
@@ -42,11 +45,19 @@ $$
 La implementación se basa en el entrenamiento de una PINN que incorpora tanto el modelo logístico como el término correctivo $\delta$. Durante el entrenamiento, se optimizan simultáneamente los parámetros del modelo base y la forma funcional de la dinámica oculta. De esta forma, la función de perdida queda de la forma:
 
 $$
- \mathcal{L}(\theta,c_j;X)=\sum_{t_i \in C_n}\frac{1}{2}f(\hat P_i,t_i;c_j)^2+\sum_{t_i\in \mathcal{D}}\frac{1}{2}(P_i-\hat P_i)^2,
+ \mathcal{L}(\theta,r,m;X)=\mathcal{L}_F+\mathcal{L}_D,
 $$
 donde la función de residuos es:
 $$
-f(\hat P,t;c_j) = \frac{d\hat P}{dt} -\mathcal{F}(\hat P,t;\lambda)-\delta(t,P,I,T;c_j) .
+\mathcal{L}_F  = \sum_{t_i \in C_n}\frac{1}{2}\Big|\Big|R(\hat P_i,t_i;r,m)\Big|\Big|^2
+$$
+
+$$
+\mathcal{L}_D  =\sum_{t_i\in \mathcal{D}}\frac{1}{2}\Big|\Big|P_i-\hat P_i\Big|\Big|^2
+$$
+
+$$
+R(\hat P,t;c_j) = \frac{d\hat P}{dt} -f(\hat P,t;\phi)-\delta(t,P,I,T;c_j) .
 $$
 
 Primero, cargamos nuestros datos de entrada `(t,I,T)`: 

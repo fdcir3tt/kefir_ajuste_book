@@ -1,54 +1,45 @@
 # Problema inverso
-En el modelado matemático del crecimiento microbiano, un problema directo consiste en determinar la evolución temporal de la población $P(t)$ a partir de una ecuación diferencial conocida y un conjunto de parámetros biológicos $\lambda$ previamente establecidos. En el contexto del kéfir de agua, esto implicaría resolver ecuaciones de crecimiento —como los modelos logístico o de Gompertz— asumiendo valores fijos para parámetros como la tasa de crecimiento $k$, la capacidad de carga $m$ y condiciones iniciales $P(t=0)$.
+En el modelado matemático del crecimiento microbiano, dijimos que un problema directo consiste en determinar la evolución temporal de la población $P(t)$ a partir de una ecuación diferencial conocida y un conjunto de parámetros biológicos $\phi$ previamente establecidos. En el contexto del kéfir de agua, esto implicaría resolver ecuaciones de crecimiento —como los modelos logístico o de Gompertz— asumiendo valores fijos para parámetros como la tasa de crecimiento $r$, la capacidad de carga $m$ y condiciones iniciales $P(t=0)$.
 
 Sin embargo, en escenarios experimentales reales, muchos de estos parámetros no son directamente observables o pueden variar en función de tratamientos externos, como el pretratamiento por ultrasonido. En estos casos, el interés principal no radica únicamente en predecir la dinámica poblacional, sino en inferir los parámetros biológicos efectivos que gobiernan el crecimiento microbiano bajo distintas condiciones. Este planteamiento da lugar a un problema inverso, siendo que partimos de una curva y lo que se quiere inferir son los parámetros que generan esta curva dada una ecuación diferencial.
 
-Las Redes Neuronales Informadas por Modelos Físicos (PINNs) han demostrado ser particularmente eficaces para la formulación y resolución de **problemas inversos**, ya que permiten tratar los parámetros desconocidos de la ecuación diferencial como variables adicionales a optimizar durante el entrenamiento. En este marco, tanto la solución $\hat{P}(t)$ como los parámetros biológicos $\lambda$ (por ejemplo, $\kappa$, $L$ o parámetros dependientes del ultrasonido como la intensidad $I$ y periodo de exposición $T$) se parametrizan mediante la red neuronal.
+Las Redes Neuronales Informadas por Modelos Físicos (PINNs) han demostrado ser particularmente eficaces para la formulación y resolución de **problemas inversos**, ya que permiten tratar los parámetros desconocidos de la ecuación diferencial como variables adicionales a optimizar durante el entrenamiento. En este marco, tanto la solución $\hat{P}(t)$ como los parámetros biológicos $\phi$ (por ejemplo, $r$, $m$ o parámetros dependientes del ultrasonido como la intensidad $I$ y periodo de exposición $T$) se parametrizan mediante la red neuronal.
 
-El procedimiento general consiste en imponer las ecuaciones gobernantes del crecimiento microbiano dentro de la función de pérdida, de modo que el residuo físico dependa explícitamente de los parámetros desconocidos. Entonces, definimos una función de residuos $f(\hat P,t;\lambda)$:
-
-$$
-f(\hat P,t;\lambda) = \frac{d\hat P}{dt} -\mathcal{F}(\hat P,t;\lambda) ,
-$$
-
-donde $\mathcal{F}( P,t;\lambda) $ representa la función del lado derecho la ecuación diferencial ordinaria de forma:
+El procedimiento general consiste en imponer las ecuaciones gobernantes del crecimiento microbiano dentro de la función de pérdida, de modo que el residuo físico dependa explícitamente de los parámetros desconocidos. Entonces, definimos una función de residuos $R(\hat P,x;\phi)$:
 
 $$
-\frac{d P}{dt}= \mathcal{F}( P,t;\lambda)
+R(\hat P,x;\phi) = \frac{d\hat P}{dt} -{f}(\hat P,x;\phi) ,
 $$
+
+donde $f( P,t;\phi) $ representa la función del lado derecho la ecuación diferencial ordinaria {eq}`general_ode_eq`.
+
 
 A partir de datos experimentales parciales —las series de tiempo del crecimiento de los gránulos de kéfir—, la red se entrena para encontrar simultáneamente una solución consistente con los datos y un conjunto de parámetros que satisfagan la estructura física del sistema.
 
 ## Construcción de la función de perdida
 
-La principal diferencia entre la formulación de problemas directos e inversos dentro del marco PINN radica en la función de pérdida, que en el caso inverso incorpora explícitamente términos asociados a los datos observados. Una formulación típica es
+La principal diferencia entre la formulación de problemas directos e inversos dentro del marco PINN radica en la función de pérdida, que en el caso inverso incorpora explícitamente términos asociados a los datos observados. Una formulación típica es {eq}`general_loss_function`, donde $\theta$ son los parámetros de la red neuronal y $\phi$ representa los parámetros físicos o biológicos a estimar. 
 
-$$
- \mathcal{L}(\theta,\lambda;
-    X)=w_f\mathcal{L}_f(\theta,\lambda;X_f)+w_b\mathcal{L}_b(\theta,\lambda;X_b)+w_i\mathcal{L}_i(\theta,\lambda;\mathcal{D}),
-$$
-
-
-
-donde $\theta$ son los parámetros de la red neuronal y $\lambda$ representa los parámetros físicos o biológicos a estimar. El término de información experimental se define como
-
-$$
-\mathcal{L}_i(\theta,\lambda;\mathcal{D})=\frac{1}{|\mathcal{D}|}\sum_{x\in \mathcal{D}}||\mathcal{I}(\hat{P},x)||^2,
-$$
-
-asegurando la compatibilidad entre la solución reconstruida y las mediciones experimentales disponibles.
 Este enfoque resulta especialmente atractivo para el estudio del crecimiento microbiano del kéfir de agua, ya que permite trabajar con datos escasos e incompletos sin recurrir a discretizaciones finas ni simulaciones numéricas tradicionales. Además, posibilita la inferencia de parámetros biológicos difíciles de medir experimentalmente, proporcionando información cuantitativa sobre el efecto del pretratamiento de ultrasonido en la dinámica de crecimiento.
 
-En el caso específico que trabajamos, 
+En el caso específico que trabajamos,{eq}`general_loss_function` toma la forma: 
 
 $$
- \mathcal{L}(\theta,\kappa,L;X)=\sum_{t_i \in C_n}\frac{1}{2}f(\hat P_i,t_i;\kappa,L)^2+\sum_{t_i\in \mathcal{D}}\frac{1}{2}(P_i-\hat P_i)^2,
+ \mathcal{L}(\theta,r,m;X=\{C,D\})=\mathcal{L}_F+\mathcal{L}_D,
 $$
 
-donde se asume en el caso de modelo Verhulst 
+donde se asume en el caso de modelo Verhulst:
 
 $$
-f(\hat P,t;\kappa,L) = \frac{d\hat P}{dt} -\kappa\hat P( 1- \frac{1}{L}\hat P ) ,
+\mathcal{L}_F  = \sum_{t_i \in C_n}\frac{1}{2}\Big|\Big|R(\hat P_i,t_i;r,m)\Big|\Big|^2
+$$
+
+$$
+\mathcal{L}_D  =\sum_{t_i\in \mathcal{D}}\frac{1}{2}\Big|\Big|P_i-\hat P_i\Big|\Big|^2
+$$
+
+$$
+R(\hat P,t;r,m) = \frac{d\hat P}{dt} -r\hat P\Big( 1- \frac{1}{m}\hat P \Big) ,
 $$
 
 
