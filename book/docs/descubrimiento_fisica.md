@@ -14,13 +14,13 @@ Bajo este enfoque, se asume que un conjunto de datos $X=\{C, \mathcal{D}\}$ sigu
  \frac{dP}{dt} = f(t,P;\phi) +\delta(t,P,I,T;c_j)
 \end{equation*}
 ```
-donde el término $\delta$ representa la contribución desconocida que se desea identificar.
+donde el término $\delta$ representa la contribución desconocida que se desea identificar(ver {cite}`BruntonKutz2019` (Cap. 14.2, pp. 524--525).
 
 En este caso particular, la desviación depende de variables de control $I$ y $T$ lo que requiere adaptar tanto la arquitectura de la red como la estructura del conjunto de datos para capturar adecuadamente estas dependencias.
 
 
 # Funciones propuestas
-Para modelar la dinámica oculta $\delta$, se consideraron distintas aproximaciones:
+Para modelar la dinámica oculta $\delta$, se consideraron distintas aproximaciones(ver {cite}`BruntonKutz2019` (Cap. 14.2, pp. 524--525):
 
 - **Modelos multipolinomiales**: donde $\delta$ se expresa como una combinación de términos polinomiales con coeficientes ajustables.
 
@@ -29,13 +29,13 @@ $$
 $$
 
 
--  **Modelos de Intensidad por periodos**: $\delta$ se representa por la multiplicación de un término de interacción entre la intensidad $I$ y periodo de exposición $T$ por un termino senoidal tomando en cuenta el periodo de aplicación de tratamiento (15 horas).
+-  **Modelos de Intensidad por periodos**: $\delta$ se representa por la multiplicación de un término de interacción entre la intensidad $I$ y periodo de exposición $T$ por un termino senoidal tomando en cuenta el periodo de aplicación de tratamiento (12 horas){cite}`Dietz1976`.
 
 $$
 \delta(t,I,T;c_j) = (c_1 + c_2I+c_3T+c_4IT)*sin(\frac{2\pi}{12}t),
 $$
 
-- **Modelo de red + regresión**: que combinan una red neuronal buscando capturar comportamientos no estructurados y después extraer patrones esperados con un método de regresión.
+- **Modelo de red + regresión**: que combinan una red neuronal buscando capturar comportamientos no estructurados y después extraer patrones esperados con un método de regresión{cite}`Pappu2025`.
 
 $$
 \delta(t;c_j=\theta) = NN_\theta(t),
@@ -68,7 +68,7 @@ t0,tf = load_time_domain(dataset)
 
 X_train, y_train, X_test,y_test = split_train_data(dataset)
 ```
-Y se define el método `ode` que nos sirve como auxiliar de la función de residuos $f(\hat P,t;c_j)$:
+Y se define el método `ode` que nos sirve como auxiliar de la función de residuos $R(\hat P,t;c_j)$:
 ```python    
 
 def ode(x, y):
