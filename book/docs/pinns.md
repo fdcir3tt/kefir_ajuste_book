@@ -9,7 +9,7 @@ La motivación principal para el uso de PINNs radica en su capacidad para combin
 
 El mecanismo de las redes neuronales informadas por física se puede seccionar en tres elementos: la red neuronal, diferenciación automática , retropropagación . En nuestro caso particular, estamos lidiando con un problema gobernado por una ecuación ordinaria de forma:
 
-```math
+```{math}
 :label: general_ode
 \begin{equation*}
     \frac{dP}{dt} = f(t,P;\phi); \hspace{1mm} B(t,P) = g(t),
@@ -29,7 +29,7 @@ PINNs han demostrado ser particularmente eficaces para la formulación y resoluc
 # Construcción de función de pérdida 
 La idea central de las PINNs se basa en la construcción de una función de pérdida compuesta, diseñada para equilibrar simultáneamente el ajuste a los datos experimentales y el cumplimiento de las ecuaciones diferenciales que gobiernan el crecimiento microbiano. La formulación típica de la función de perdida para problemas inversos viene siendo:
 
-```math
+```{math}
 :label: total_loss_function
 \begin{equation*}
 \mathcal{L}(\theta,\phi)=w_D\mathcal{L}_D(\theta)+w_F\mathcal{L}_F(\theta,\phi)+w_B\mathcal{L}_B(\theta),
@@ -40,7 +40,7 @@ donde $\theta$ representa los parámetros entrenables de la red. $\mathcal{L}_D$
 
 El término asociado a las ecuaciones gobernantes se define como
 
-```math
+```{math}
 :label: ode_loss
 \begin{equation*}
 \mathcal{L}_F(\theta,\phi)=\frac{1}{|C|}\sum_{x_i\in C}\Big|\Big|\frac{d\hat{P}_\theta}{dt}-f(x_i,\hat{P_\theta};\phi)\Big|\Big|^2,
@@ -49,7 +49,7 @@ El término asociado a las ecuaciones gobernantes se define como
 
 donde $\hat{P}$ es la salida de la red neuronal,$C$ los puntos de colocación y $\phi$ corresponde a parámetros desconocidos que pueden ser inferidos durante el entrenamiento. Es decir, son variables que se estimaran junto con los parámetros de la red. De manera análoga, el término de condiciones iniciales y de frontera se expresa como
 
-```math
+```{math}
 :label: boundary_loss
 \begin{equation*}
 \mathcal{L}_B(\theta)=\frac{1}{|B|}\sum_{x_i\in B}\Big|\Big|\mathcal{B}(\hat{P}_\theta,x_i)-g(x_i)\Big|\Big|^2,
@@ -58,7 +58,7 @@ donde $\hat{P}$ es la salida de la red neuronal,$C$ los puntos de colocación y 
 
 donde $B$ asegurando que la solución aprendida sea consistente con las condiciones experimentales del sistema, como la biomasa inicial de los gránulos de kéfir. Finalmente, se agrega el término asociado a que tan bien se ajusta la red a los datos observados y la clave de la resolución del problema inverso :
 
-```math
+```{math}
 :label: data_loss
 \begin{equation*}
     \mathcal{L}_D(\theta)=\frac{1}{|D|}\sum_{x_i\in D}\Big|\Big|\hat{P}_\theta(x_i)-x_i\Big|\Big|^2

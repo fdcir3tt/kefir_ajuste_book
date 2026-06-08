@@ -7,7 +7,7 @@ Al analizar los datos bajo ciertas condiciones de tratamiento, se observa una de
 # PINNs: Una herramienta imprevista 
 Las redes neuronales informadas por física (PINNs) permiten integrar conocimiento previo directamente en el proceso de entrenamiento mediante restricciones basadas en ecuaciones diferenciales. Esta característica no solo mejora la consistencia del modelo, sino que también abre la posibilidad de aprender dinámicas ocultas presentes en los datos.
 Bajo este enfoque, se asume que un conjunto de datos $X=\{C, \mathcal{D}\}$ sigue una dinámica conocida con pequeñas desviaciones. Esto se modela como:
-```math
+```{math}
 
 \begin{equation*}
 :label: general_correction_eq

@@ -132,14 +132,14 @@ for metric,value in metrics.items():
 
 ```
 
-| Métrica                               | Descripción                                                                                                                                          |
-|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|
-| Root Mean Square Error (RMSE)         | Mide la magnitud promedio del error cuadrático, siendo sensible a errores grandes.                                                                   |
-| Mean Absolute Error (MAE)             | Calcula el promedio de los errores absolutos, proporcionando una medida robusta del error medio.                                                     |
-| Mean Absolute Percentage Error (MAPE) | Expresa el error en términos relativos, facilitando su interpretación porcentual.                                                                    |
-| Akaike Information Criterion (AIC)    | Evalúa la calidad del modelo penalizando su complejidad, favoreciendo modelos parsimoniosos                                                          |
-| Bayesian Information Criterion (BIC)  | Similar al AIC, pero con una penalización más estricta, útil para la selección de modelos.                                                           |
-| Coeficiente de determinación ($R^2$)  | Indica la proporción de la varianza de los datos explicada por el modelo                                                                             |
+| Métrica                               | Descripción                                                                                                                                          |Fórmula
+|---------------------------------------|------------------------------------------------------------------------------------------------------------------------------------------------------|------------------------|
+| Root Mean Square Error (RMSE)         | Mide la magnitud promedio del error cuadrático, siendo sensible a errores grandes.                                                                   |$\Bigg[\frac{1}{n} \sum_{x_i \in X}\Big(y_i - \hat{y}_i \Big)^2 \Bigg]^{-\frac{1}{2}}$ |
+| Mean Absolute Error (MAE)             | Calcula el promedio de los errores absolutos, proporcionando una medida robusta del error medio.                                                     |$\frac{1}{n} \sum_{x_i \in X}\text{abs}\Big[\hat{y}_i-y_i \Big]$  |
+| Mean Absolute Percentage Error (MAPE) | Expresa el error en términos relativos, facilitando su interpretación porcentual.                                                                    | $\frac{1}{n} \sum_{x_i \in X}\text{abs}\Big[\frac{\hat{y}_i-y_i}{y_i} \Big]$ | 
+| Akaike Information Criterion (AIC)    | Evalúa la calidad del modelo penalizando su complejidad, favoreciendo modelos parsimoniosos                                                          |$2k - 2ln\Big( \frac{\text{RSS}}{n}\Big)$  | 
+| Bayesian Information Criterion (BIC)  | Similar al AIC, pero con una penalización más estricta, útil para la selección de modelos.                                                           |$2ln\Big(\frac{\text{RSS}}{n}\Big)-kln(n)$ |
+| Coeficiente de determinación ($R^2$)  | Indica la proporción de la varianza de los datos explicada por el modelo                                                                             |$1-\frac{\text{RSS}}{\sum_{x_i\in X}(y_i-\bar{y})^2}$  |
  
 
 

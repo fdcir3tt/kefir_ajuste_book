@@ -52,11 +52,11 @@ Para incorporar estas restricciones, el modelo logístico introduce una capacida
 
 ```{math}
 :label: verhulst_eq
-$$
+
 \begin{equation*}
 \frac{dP}{dt}=rP(1-\frac{P}{m}),
 \end{equation*}
-$$
+
 ```
 
 $$
@@ -86,7 +86,7 @@ donde $L$ es la recta tangencial a la curva en el punto de inflección. Tomemos 
 
 ```{math}
 :label: mu_proc
-$$
+
 \begin{align*}
 \text{max}\Big(\frac{dP}{dt}\Big)\iff \frac{d^2P}{dt^2}=0,\\
 \frac{d}{dt}\Big[rP\Big(1-\frac{P}{m}\Big) \Big]= 0 \\
@@ -94,7 +94,7 @@ $$
 r\frac{dP}{dt}\Big(1-\frac{P}{m}\Big)-\frac{r}{m}P\frac{dP}{dt}= 0\\
 r\frac{dP}{dt}\Bigg[1-\frac{2P}{m}\Bigg] = 0.
 \end{align*}
-$$
+
 ```
 
 De {eq}`mu_proc` obtenemos la solución
