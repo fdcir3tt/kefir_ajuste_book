@@ -33,12 +33,11 @@ kéfir.
 
 ## Optimización
 
-El entrenamiento de la PINN se realiza mediante algoritmos de optimización basados en pasos de gradiente, ajustando tanto los pesos de la red como  los parámetros del modelo. 
-Durante este proceso, se busca minimizar la función de pérdida global, equilibrando el 
-ajuste a datos y el cumplimiento de las ecuaciones gobernantes.
+El entrenamiento de la PINN se realiza mediante el algoritmo de optimización de ADAM ,ya que resulta ser eficiente para problemas inversos {cite}`Pappu2025,Farea2025` y en general en el entrenamiento de perceptrones de multiples capas {cite}`kingma2017`. ADAM consiste de un algoritmo de descenso de gradiente que hace uso de estimaciones del promedio y la varianza del gradiente para actualizar mejor los pasos de gradiente {cite}`kingma2017`.
 
-La correcta ponderación de los términos de la pérdida es un aspecto clave del flujo de trabajo, ya que un desbalance puede afectar la estabilidad del entrenamiento o sesgar 
-la inferencia de parámetros. En el caso del problema inverso, se utilizó el método de "adam" para manejar el descenso de gradiente. 
+En el proceso de entrenamiento se van ajustando tanto los pesos de la red como  los parámetros del modelo. Durante este proceso, se busca minimizar la función de pérdida global, equilibrando el ajuste a datos y el cumplimiento de las ecuaciones gobernantes.
+
+La correcta ponderación de los términos de la función de pérdida constituye un aspecto fundamental del flujo de trabajo, ya que un desbalance entre ellos puede comprometer la estabilidad del entrenamiento o introducir sesgos en la inferencia de parámetros. En este trabajo se empleará la función de pérdida definida en {eq}`total_loss_function`, cuyos términos se describen en detalle según el proceso considerado en las secciones correspondientes (véanse las páginas _Problema inverso_ y _Descubrimiento de dinámicas ocultas con PINNs_)
 
 ## Evaluación y análisis de resultados
 
