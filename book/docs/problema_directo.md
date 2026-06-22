@@ -8,9 +8,23 @@ Los resultados obtenidos mediante RK4 mostraron una **alta concordancia entre la
 ## Ajuste de PINN
 Adicionalmente, se logró **ajustar una Red Neuronal Informada por la Física (Physics-Informed Neural Network, PINN)** a los mismos datos experimentales de crecimiento, utilizando igualmente el **modelo logístico como restricción física**.
 
+
+::::{grid} 2
+
+:::{grid-item}
 ```{figure} /images/solution_plot.png
-:width: 72%
+:width: 100%
 ```
+:::
+
+:::{grid-item}
+```{figure} /images/adj_loss_plot.png
+:width: 100%
+```
+:::
+
+::::
+
 | Parámetro | Estimación | Real | Error absoluto | Error relativo %|
 |-----------|------------|------|----------------|-----------------|
 |     r (1/hr)  |   0.0491   | 0.046|     0.0031     |      6.74       |
