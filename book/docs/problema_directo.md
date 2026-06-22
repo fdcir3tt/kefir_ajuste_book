@@ -1,4 +1,4 @@
-# Ajuste de modelo de Gompertz
+# Ajuste de modelo de con datos de tratamientos de ultrasonido
 
 En este trabajo se logró **corroborar la validez de los parámetros del modelo de Gompertz** para describir el crecimiento de los gránulos de kéfir de agua. Para ello, se empleó el método numérico de **Runge–Kutta de cuarto orden (RK4)**, el cual permitió resolver la ecuación diferencial asociada al modelo de manera precisa y estable.
 
