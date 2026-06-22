@@ -1,12 +1,9 @@
-# Ajuste de modelo de con datos de tratamientos de ultrasonido
+# Ajuste de modelo con datos de tratamientos de ultrasonido
 
 En este trabajo se logró **corroborar la validez de los parámetros del modelo de Gompertz** para describir el crecimiento de los gránulos de kéfir de agua. Para ello, se empleó el método numérico de **Runge–Kutta de cuarto orden (RK4)**, el cual permitió resolver la ecuación diferencial asociada al modelo de manera precisa y estable.
 
 Los resultados obtenidos mediante RK4 mostraron una **alta concordancia entre la solución numérica y los datos experimentales de crecimiento testigo** de nuestra fuente de datos, lo que confirma que los parámetros estimados del modelo de Gompertz representan adecuadamente la dinámica del sistema biológico estudiado. Esta corroboración respalda el uso del modelo como una herramienta confiable para describir el comportamiento temporal del crecimiento de los gránulos. 
 
-```{figure} /images/best_adj.png
-:width: 72%
-```
 
 ## Ajuste de PINN
 Adicionalmente, se logró **ajustar una Red Neuronal Informada por la Física (Physics-Informed Neural Network, PINN)** a los mismos datos experimentales de crecimiento, utilizando igualmente el **modelo logístico como restricción física**.
