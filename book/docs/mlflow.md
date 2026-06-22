@@ -1,6 +1,43 @@
 # Reproducibilidad utilizando mlflow
 
-Con el objetivo de garantizar la reproducibilidad de los resultados obtenidos en este proyecto, se optó por utilizar la herramienta [mlflow](https://mlflow.org/docs/latest/ml/) como solución de seguimiento y gestión de experimentos. Se registraron de manera sistemática y detallada las **métricas**, los **parámetros** y otras **configuraciones** relevantes asociadas a cada corrida de entrenamiento de los modelos PINN, con el fin de asegurar un control riguroso sobre las condiciones de entrenamiento, comparación y análisis de los distintos experimentos realizados. 
+Con el objetivo de garantizar la reproducibilidad de los resultados obtenidos en este proyecto, se optó por utilizar la herramienta [mlflow](https://mlflow.org/docs/latest/ml/) como solución de seguimiento y gestión de experimentos. La reproducibilidad que se quiere lograr es, partiendo de las configuraciones de experimento que se definen, llegar siempre al mismo resultado. 
+
+Escogimos mlflow como la herramienta adecuada para nuestro caso de uso, ya que cumple con las características que buscamos: 
+
+- **Código abierto**
+- **Seguimiento de experimentos** : registra métricas, hiperparámetros, artefactos y configuraciones de entrenamiento.
+
+- **Model Registry**: permite versionar modelos y gestionar su ciclo de vida.
+
+- **Gestión de artefactos**: almacena modelos, gráficos, logs y otros archivos generados durante el entrenamiento.
+
+- **Reproducibilidad**: registra información del entorno y dependencias para facilitar la repetición de experimentos.
+
+- **Compatibilidad amplia**: funciona con PyTorch, TensorFlow, Scikit-learn, XGBoost, Hugging Face y muchas otras herramientas.
+
+- **Despliegue flexible**: puede ejecutarse localmente o utilizando servicios de almacenamiento externos.
+
+- **Valor currícular**: Se utiliza mucho en roles corporativos de ciencia de datos por estar integrado a la herramienta de [DataBricks](https://www.databricks.com/)
+
+Otras herramientas que se pudieron haber utilizado son:
+
+| Nombre         | Descripción|Características  |Página de recurso|
+|----------------|------------|-----------------|------|
+| **Weights&Biases** |Plataforma de MLOps enfocada en el seguimiento y análisis de experimentos de machine learning. Permite registrar automáticamente métricas, hiperparámetros, modelos, datasets y artefactos durante el entrenamiento.|- Seguimiento de experimentos<br>- Visualización avanzada<br>- Gestión de artefactos<br>- Colaboración<br>- Integraciones<br>- Hyperparameter Sweeps | [enlace](https://wandb.ai/site) |
+| **ClearML**        |Plataforma de MLOps de código abierto que va más allá del seguimiento de experimentos. Además de registrar métricas y modelos, incluye capacidades de orquestación, automatización y gestión de infraestructura | -Seguimiento de experimentos <br>-Ejecución remota<br>-Gestión de datasets<br>-Pipelines automatizadas<br>-Orquestación de recursos<br>-Model Registry| [enlace](https://wandb.ai/site) |  
+
+## Demo
+
+Continuando con el enfoque de reproducibilidad, se registraron de manera sistemática y detallada las **métricas**, los **parámetros** y otras **configuraciones** relevantes asociadas a cada corrida de entrenamiento de los modelos PINN, con el fin de asegurar un control riguroso sobre las condiciones de entrenamiento, comparación y análisis de los distintos experimentos realizados. 
+
+Para ilustrar cómo se lleva a cabo la comparación de experimentos en la interfaz de usuario, se presenta una breve demostración. En ella se muestran diferentes experimentos y ejecuciones realizadas con diversas configuraciones, así como las herramientas disponibles para compararlos a partir de las métricas obtenidas en cada corrida.
+
+```{image} images/mlflow_demo_2.gif
+:alt: mlflow Demo
+:width: 400px
+:align: center
+```
+
 
 ## Configuración de experimentos
 
