@@ -4,22 +4,20 @@
 Contamos con datos que describen con buena precisión el fenómeno bien conocido: el crecimiento logístico de los granos de kéfir en base lactosa. Asimismo, existe evidencia razonable para suponer que los granos de kéfir en base acuosa siguen un comportamiento similar.
 Al analizar los datos bajo ciertas condiciones de tratamiento, se observa una desviación respecto a la trayectoria esperada. Dado que esta diferencia no es drástica, se parte del modelo logístico clásico como base, incorporando un término adicional desconocido que representa la “nueva física” que se busca descubrir.
 
-# PINNs: Una herramienta imprevista 
+## PINNs: Una herramienta imprevista 
 Las redes neuronales informadas por física (PINNs) permiten integrar conocimiento previo directamente en el proceso de entrenamiento mediante restricciones basadas en ecuaciones diferenciales. Esta característica no solo mejora la consistencia del modelo, sino que también abre la posibilidad de aprender dinámicas ocultas presentes en los datos.
 Bajo este enfoque, se asume que un conjunto de datos $X=\{C, \mathcal{D}\}$ sigue una dinámica conocida con pequeñas desviaciones. Esto se modela como:
 ```{math}
-
-\begin{equation*}
 :label: general_correction_eq
  \frac{dP}{dt} = f(t,P;\phi) +\delta(t,P,I,T;c_j)
-\end{equation*}
+
 ```
 donde el término $\delta$ representa la contribución desconocida que se desea identificar(ver {cite}`BruntonKutz2019` (Cap. 14.2, pp. 524--525).
 
 En este caso particular, la desviación depende de variables de control $I$ y $T$ lo que requiere adaptar tanto la arquitectura de la red como la estructura del conjunto de datos para capturar adecuadamente estas dependencias.
 
 
-# Funciones propuestas
+## Funciones propuestas
 Para modelar la dinámica oculta $\delta$, se consideraron distintas aproximaciones(ver {cite}`BruntonKutz2019` (Cap. 14.2, pp. 524--525):
 
 - **Modelos multipolinomiales**: donde $\delta$ se expresa como una combinación de términos polinomiales con coeficientes ajustables.
@@ -41,19 +39,21 @@ $$
 \delta(t;c_j=\theta) = NN_\theta(t),
 $$
 
-# Implementación 
+## Implementación 
 La implementación se basa en el entrenamiento de una PINN que incorpora tanto el modelo logístico como el término correctivo $\delta$. Durante el entrenamiento, se optimizan simultáneamente los parámetros del modelo base y la forma funcional de la dinámica oculta. De esta forma, la función de perdida queda de la forma:
 
 $$
  \mathcal{L}(\theta,r,m;X)=\mathcal{L}_F+\mathcal{L}_D,
 $$
+
 donde la función de residuos es:
+
 $$
-\mathcal{L}_F  = \sum_{t_i \in C_n}\frac{1}{2}\Big|\Big|R(\hat P_i,t_i;r,m)\Big|\Big|^2
+\mathcal{L}_F  = \sum_{t_i \in C_n}\frac{1}{2}\Big|\Big|R(\hat P_i,t_i;r,m)\Big|\Big|^2,
 $$
 
 $$
-\mathcal{L}_D  =\sum_{t_i\in \mathcal{D}}\frac{1}{2}\Big|\Big|P_i-\hat P_i\Big|\Big|^2
+\mathcal{L}_D  =\sum_{t_i\in \mathcal{D}}\frac{1}{2}\Big|\Big|P_i-\hat P_i\Big|\Big|^2,
 $$
 
 $$
@@ -115,7 +115,7 @@ net = dde.nn.FNN([3, 50, 50, 50, 1], "tanh", "Glorot uniform")
 ```
 
 
-# Resultados
+## Resultados
 
 El mejor resultado del proceso de descubrimiento de física vino siendo producto del entrenamiento de PINN con la función de corrección de intensidad por periodos. Se puede visualizar el desempeño del modelo en la siguientes imagenes: 
 
