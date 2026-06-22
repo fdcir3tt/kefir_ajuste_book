@@ -15,12 +15,84 @@ diferenciación automática, se calculan las derivadas temporales de la salida d
 necesarias para evaluar el residuo de la ecuación diferencial que gobierna el crecimiento 
 microbiano. 
 
-La arquitectura de esta red neuronal consiste de:
+La arquitectura de las redes utilizadas consisten de:
+
+**Modelo utilizado para problema inverso** 
 - **Capa de entrada**: Capa de una sola neurona con función de activación $\sigma = \tanh$.
 
-- **Capas ocultas**: 3 capas ocultas densas 50 neuronas cada una con función de activación $\sigma = \tanh$.
+- **Capas ocultas**: 3 capas ocultas densas de 50 neuronas cada una con función de activación $\sigma = \tanh$.
 
 - **Capa de salida**: Capa de una sola neurona con función de activación $\sigma = \tanh$.
+
+
+- **Representación matemática**:
+$$
+NN(t) = \sigma(W_4\hspace{1mm}...\hspace{1mm}\sigma(W_1t+\bold{b}_1)+\bold{b}_4).
+$$
+
+- **Pesos**:
+
+$$
+\begin{align*}
+dim(W_1) &= 1\times50 = 50 \\
+dim(W_2) &= 50\times50 = 2500\\
+dim(W_3) &= 50\times50 = 2500\\
+dim(W_4) &= 50\times1 = 50\\
+\end{align*}
+$$
+
+- **Sesgos**:
+$$
+\begin{align*}
+dim(\bold{b}_1) &= 50 \\
+dim(\bold{b}_2) &= 50\\
+dim(\bold{b}_3) &= 50\\
+dim(\bold{b}_4) &= 1\\
+
+
+\end{align*}
+$$
+
+- **Parámetros entrenables**: Total de 5251 parámetros 
+
+
+**Modelo utilizado en descubrimiento físico** 
+- **Capa de entrada**: Capa de una sola neurona con función de activación $\sigma = \tanh$.
+
+- **Capas ocultas**: 3 capas ocultas densas de 50 neuronas cada una con función de activación $\sigma = \tanh$.
+
+- **Capa de salida**: Capa de una sola neurona con función de activación $\sigma = \tanh$.
+
+- **Representación matemática**:
+$$
+NN(\bold{x}) = \sigma(W_4\hspace{1mm}...\hspace{1mm}\sigma(W_1\bold{x}+\bold{b}_1)+\bold{b}_4).
+$$
+
+- **Pesos**:
+
+$$
+\begin{align*}
+dim(W_1) &= 3\times50  = 150 \\
+dim(W_2) &= 50\times50 = 2500\\
+dim(W_3) &= 50\times50 = 2500\\
+dim(W_4) &= 50\times1  = 50\\
+\end{align*}
+$$
+
+- **Sesgos**:
+$$
+\begin{align*}
+dim(\bold{b}_1) &= 50 \\
+dim(\bold{b}_2) &= 50\\
+dim(\bold{b}_3) &= 50\\
+dim(\bold{b}_4) &= 1\\
+
+
+\end{align*}
+$$
+
+- **Parámetros entrenables**: Total de 5351 parámetros
+
 
 ## Definición del modelo físico y dominio
 
