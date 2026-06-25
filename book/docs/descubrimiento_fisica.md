@@ -119,22 +119,20 @@ net = dde.nn.FNN([3, 50, 50, 50, 1], "tanh", "Glorot uniform")
 
 El mejor resultado del proceso de descubrimiento de física vino siendo producto del entrenamiento de PINN con la función de corrección de intensidad por periodos. Se puede visualizar el desempeño del modelo en la siguientes imagenes: 
 
-```{figure} /images/best_disc_results_0.png
+```{figure} /images/best_disc_loss.png
 :width: 72%
 ```
 
-```{figure} /images/best_disc_results_1.png
+```{figure} /images/best_disc_results.png
 :width: 72%
 ```
 
-```{figure} /images/best_disc_results_2.png
-:width: 72%
-```
 
-```{figure} /images/best_disc_results_3.png
-:width: 72%
-```
-
-```{figure} /images/best_disc_results_4.png
-:width: 72%
-```
+| Métrica                               | Valor                                                                                                                                    |
+|---------------------------------------|------|
+| Root Mean Square Error (RMSE)         | 2.9640  | |
+| Mean Absolute Error (MAE)             | 2.4397  | |
+| Mean Absolute Percentage Error (MAPE) | 8.0278  | 
+| Akaike Information Criterion (AIC)    | 10742.5966                           
+| Bayesian Information Criterion (BIC)  | 14534.2054                                  
+| Coeficiente de determinación ($R^2$)  |  0.8961                                                              
