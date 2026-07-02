@@ -26,32 +26,32 @@ La arquitectura de las redes utilizadas consisten de:
 
 
 - **Representación matemática**:
+
 $$
-NN(t) = \sigma(W_4\hspace{1mm}...\hspace{1mm}\sigma(W_1t+\bold{b}_1)+\bold{b}_4).
+NN(t) = \sigma(W_4\hspace{1mm}...\hspace{1mm}\sigma(W_1t+\mathbf{b}_1)+\mathbf{b}_4).
 $$
 
 - **Pesos**:
 
-$$
-\begin{align*}
+```{math}
+\begin{align}
 dim(W_1) &= 1\times50 = 50 \\
 dim(W_2) &= 50\times50 = 2500\\
 dim(W_3) &= 50\times50 = 2500\\
-dim(W_4) &= 50\times1 = 50\\
-\end{align*}
-$$
+dim(W_4) &= 50\times1 = 50
+\end{align}
+```
 
 - **Sesgos**:
-$$
-\begin{align*}
-dim(\bold{b}_1) &= 50 \\
-dim(\bold{b}_2) &= 50\\
-dim(\bold{b}_3) &= 50\\
-dim(\bold{b}_4) &= 1\\
 
-
-\end{align*}
-$$
+```{math}
+\begin{align}
+dim(\mathbf{b}_1) &= 50 \\
+dim(\mathbf{b}_2) &= 50\\
+dim(\mathbf{b}_3) &= 50\\
+dim(\mathbf{b}_4) &= 1
+\end{align}
+```
 
 - **Parámetros entrenables**: Total de 5251 parámetros 
 
@@ -64,32 +64,32 @@ $$
 - **Capa de salida**: Capa de una sola neurona con función de activación $\sigma = \tanh$.
 
 - **Representación matemática**:
+
 $$
-NN(\bold{x}) = \sigma(W_4\hspace{1mm}...\hspace{1mm}\sigma(W_1\bold{x}+\bold{b}_1)+\bold{b}_4).
+NN(\mathbf{x}) = \sigma(W_4\hspace{1mm}...\hspace{1mm}\sigma(W_1\mathbf{x}+\mathbf{b}_1)+\mathbf{b}_4).
 $$
 
 - **Pesos**:
 
-$$
-\begin{align*}
+```{math}
+\begin{align}
 dim(W_1) &= 3\times50  = 150 \\
 dim(W_2) &= 50\times50 = 2500\\
 dim(W_3) &= 50\times50 = 2500\\
-dim(W_4) &= 50\times1  = 50\\
-\end{align*}
-$$
+dim(W_4) &= 50\times1  = 50
+\end{align}
+```
 
 - **Sesgos**:
-$$
-\begin{align*}
-dim(\bold{b}_1) &= 50 \\
-dim(\bold{b}_2) &= 50\\
-dim(\bold{b}_3) &= 50\\
-dim(\bold{b}_4) &= 1\\
 
-
-\end{align*}
-$$
+```{math}
+\begin{align}
+dim(\mathbf{b}_1) &= 50 \\
+dim(\mathbf{b}_2) &= 50 \\
+dim(\mathbf{b}_3) &= 50 \\
+dim(\mathbf{b}_4) &= 1
+\end{align}
+```
 
 - **Parámetros entrenables**: Total de 5351 parámetros
 
