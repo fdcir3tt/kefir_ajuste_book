@@ -3,21 +3,21 @@
 ## Formulación matemática
 
 
-El crecimiento de comunidades microbianas, como el presente en los gránulos de kéfir de agua, puede describirse mediante modelos matemáticos de tipo poblacional {cite}`Zwietering1990`. Estos modelos permiten representar la evolución temporal de la biomasa microbiana $P(t)$  bajo ciertas hipótesis biológicas y ambientales, y han sido ampliamente utilizados en el estudio de fermentaciones y sistemas probióticos.
+El crecimiento de comunidades microbianas, como el presente en los gránulos de kéfir de agua, puede describirse mediante modelos matemáticos de tipo poblacional {cite}`Zwietering1990`. Estos modelos permiten representar la evolución temporal de la biomasa microbiana $y(t)$  bajo ciertas hipótesis biológicas y ambientales, y han sido ampliamente utilizados en el estudio de fermentaciones y sistemas probióticos.
 
-El modelo Malthusiano asume que la tasa de crecimiento es proporcional al tamaño poblacional{cite}`AAdkinsWilliams2012`, lo que conduce a un crecimiento exponencial. En forma matemática, partimos de las tazas de nacimiento $b(t)$ y de muertes $d(t)$ . Se propone que tanto $b(t)$ como $d(t)$ comparten una relación de proporcionalidad con el tamaño de población $P(t)$ :
+El modelo Malthusiano asume que la tasa de crecimiento es proporcional al tamaño poblacional{cite}`AAdkinsWilliams2012`, lo que conduce a un crecimiento exponencial. En forma matemática, partimos de las tazas de nacimiento $b(t)$ y de muertes $d(t)$ . Se propone que tanto $b(t)$ como $d(t)$ comparten una relación de proporcionalidad con el tamaño de población $y(t)$ :
 
 
 ```{math}
 :label: rates
-b(t)=\beta P(t), \quad d(t)=\delta P(t).
+b(t)=\beta y(t), \quad d(t)=\delta y(t).
 ```
 
 De aquí, se plantea que la taza en la que cambia el tamaño de población se da por la diferencia entre las tazas de nacimiento y muerte:
 
 $$
 \begin{equation*}
-\frac{dP}{dt}=b(t)-d(t).
+\frac{dy}{dt}=b(t)-d(t).
 \end{equation*}
 $$
 
@@ -25,14 +25,14 @@ Teniendo en mente las expresiones de {eq}`rates` , obtenemos la ecuación
 
 ```{math}
 :label: exponential
-\frac{dP}{dt}=rP(t).
+\frac{dy}{dt}=ry(t).
 ```
 
-Donde $r=\beta-\delta$ es una constante real. El modelo Veltusiano también considera las mismas premisas y la forma de {eq}`exponential`, solo cambian  $b(t)$ y $d(t)$. Con este modelo se considera que el cociente $b(t)/P(t)$ en vez de mantenerse constante, se considera que este decrese linealmente con respecto a la población: $b(t)/P(t)=\beta - k_\beta P(t)$ . De manera similar con la taza de muerte. Como consecuencia, obtenemos:
+Donde $r=\beta-\delta$ es una constante real. El modelo Veltusiano también considera las mismas premisas y la forma de {eq}`exponential`, solo cambian  $b(t)$ y $d(t)$. Con este modelo se considera que el cociente $b(t)/y(t)$ en vez de mantenerse constante, se considera que este decrese linealmente con respecto a la población: $b(t)/y(t)=\beta - k_\beta y(t)$ . De manera similar con la taza de muerte. Como consecuencia, obtenemos:
 
 $$
 \begin{equation*}
-b(t)=(\beta - k_{\beta}P) P ,\hspace{5mm} d(t)=(\delta + k_{\delta}P) P.
+b(t)=(\beta - k_{\beta}y) y ,\hspace{5mm} d(t)=(\delta + k_{\delta}y) y.
 \end{equation*}
 $$
 
@@ -41,9 +41,9 @@ Teniendo esto en mente, obtenemos
 ```{math}
 :label: proc-logistic
 \begin{align}
-\frac{dP}{dt} &= (\beta - k_{\beta}P) P - (\delta + k_{\delta}P) P \\
-&= (\beta - \delta - (k_{\beta}+k_{\delta})P) P \\
-&= (\beta - \delta)\left(1 - \frac{k_{\beta}+k_{\delta}}{\beta - \delta} P \right) P.
+\frac{dy}{dt} &= (\beta - k_{\beta}y) y - (\delta + k_{\delta}y) y \\
+&= (\beta - \delta - (k_{\beta}+k_{\delta})y) y \\
+&= (\beta - \delta)\left(1 - \frac{k_{\beta}+k_{\delta}}{\beta - \delta} y \right) y.
 \end{align}
 ```
 
@@ -54,7 +54,7 @@ Para incorporar estas restricciones, el modelo logístico introduce una capacida
 :label: verhulst_eq
 
 \begin{equation*}
-\frac{dP}{dt}=rP(1-\frac{P}{m}),
+\frac{dy}{dt}=ry(1-\frac{y}{m}),
 \end{equation*}
 
 ```
@@ -88,11 +88,11 @@ donde $L$ es la recta tangencial a la curva en el punto de inflección. Tomemos 
 :label: mu_proc
 
 \begin{align*}
-\text{max}\Big(\frac{dP}{dt}\Big)\iff \frac{d^2P}{dt^2}=0,\\
-\frac{d}{dt}\Big[rP\Big(1-\frac{P}{m}\Big) \Big]= 0 \\
-\frac{d}{dt}[rP]\Big(1-\frac{P}{m}\Big) + rP\frac{d}{dt}\Big(1-\frac{P}{m}\Big) = 0 \\
-r\frac{dP}{dt}\Big(1-\frac{P}{m}\Big)-\frac{r}{m}P\frac{dP}{dt}= 0\\
-r\frac{dP}{dt}\Bigg[1-\frac{2P}{m}\Bigg] = 0.
+\text{max}\Big(\frac{dy}{dt}\Big)\iff \frac{d^2y}{dt^2}=0,\\
+\frac{d}{dt}\Big[ry\Big(1-\frac{y}{m}\Big) \Big]= 0 \\
+\frac{d}{dt}[ry]\Big(1-\frac{y}{m}\Big) + ry\frac{d}{dt}\Big(1-\frac{y}{m}\Big) = 0 \\
+r\frac{dy}{dt}\Big(1-\frac{y}{m}\Big)-\frac{r}{m}y\frac{dy}{dt}= 0\\
+r\frac{dy}{dt}\Bigg[1-\frac{2y}{m}\Bigg] = 0.
 \end{align*}
 
 ```
@@ -101,13 +101,13 @@ De {eq}`mu_proc` obtenemos la solución
 no trivial : 
 
 $$
-1-\frac{2P}{m} = 0 \to P(t_i) = \frac{m}{2}
+1-\frac{2y}{m} = 0 \to y(t_i) = \frac{m}{2}
 $$
 
 $$
 \begin{aligned}
-\frac{dP}{dt}\Big|_{t_i} 
-&= r P(t_i) \Bigl( 1 - \frac{P(t_i)}{m} \Bigr) \\
+\frac{dy}{dt}\Big|_{t_i} 
+&= r y(t_i) \Bigl( 1 - \frac{y(t_i)}{m} \Bigr) \\
 &= r \frac{m}{2} \Bigl( 1 - \frac{1}{2} \Bigr) \\
 &= r \frac{m}{4}
 \end{aligned}
@@ -115,23 +115,23 @@ $$
 
 $$
 \begin{aligned}
-\mu_m =\frac{dP}{dt}\Bigg|_{t_i} = r\frac{m}{4}
+\mu_m =\frac{dy}{dt}\Bigg|_{t_i} = r\frac{m}{4}
 \end{aligned}
 $$
 
 Ahora solo nos falta conocer $t_i$ despejando de la solución explícita $P(t)$: 
 
 $$
-P(t_i) = \frac{mP_0e^{rt_i}}{m+P_0(e^{rt_i}-1)} \\
+y(t_i) = \frac{my_0e^{rt_i}}{m+y_0(e^{rt_i}-1)} \\
 
 
-\frac{m}{2} = \frac{mP_0e^{rt_i}}{m+P_0(e^{rt_i}-1)} \\ 
-m+P_0(e^{rt_i}-1) = 2P_0e^{rt_i}\\
+\frac{m}{2} = \frac{my_0e^{rt_i}}{m+y_0(e^{rt_i}-1)} \\ 
+m+y_0(e^{rt_i}-1) = 2y_0e^{rt_i}\\
 
-m-(P_0e^{rt_i}+1)= 0 \\ 
-\frac{m-1}{P_0} = e^{rt_i}\\
+m-(y_0e^{rt_i}+1)= 0 \\ 
+\frac{m-1}{y_0} = e^{rt_i}\\
 
-t_i = ln\Bigg[\Big(\frac{m-1}{rP_0}\Big)\Bigg]
+t_i = ln\Bigg[\Big(\frac{m-1}{ry_0}\Big)\Bigg]
 
 
 $$
@@ -143,7 +143,7 @@ $$
 
 0=\mu_m\lambda+y_0\\
 \lambda = -\frac{y_0}{\mu_m}=t_i-\frac{m}{2\mu_m}\\
-\lambda = ln\Bigg[\Big(\frac{m-1}{rP_0}\Big)\Bigg] - \frac{2}{r}
+\lambda = ln\Bigg[\Big(\frac{m-1}{ry_0}\Big)\Bigg] - \frac{2}{r}
 $$
 
 
@@ -166,7 +166,7 @@ El modelo de Gompertz ofrece una alternativa más flexible para describir el cre
 
 ```{math}
 :label: gompertz
-\frac{dP}{dt}=rP\hspace{0.5mm}ln(\frac{m}{P}).
+\frac{dy}{dt}=ry\hspace{0.5mm}ln(\frac{m}{y}).
 ``` 
 
 
