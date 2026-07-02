@@ -1,8 +1,8 @@
 # Reproducibilidad utilizando mlflow
 
-Con el objetivo de garantizar la reproducibilidad de los resultados obtenidos en este proyecto, se optó por utilizar la herramienta [mlflow](https://mlflow.org/docs/latest/ml/) como solución de seguimiento y gestión de experimentos. La reproducibilidad que se quiere lograr es, partiendo de las configuraciones de experimento que se definen, llegar siempre al mismo resultado. 
+Con el objetivo de garantizar la reproducibilidad de los resultados obtenidos en este proyecto, se optó por utilizar la herramienta [mlflow](https://mlflow.org/docs/latest/ml/) como solución de seguimiento y gestión de experimentos. La meta de reproducibilidad es que,al partir de una configuración de experimento dada, se pueda obtener consistentemente el mismo resultado.
 
-Escogimos mlflow como la herramienta adecuada para nuestro caso de uso, ya que cumple con las características que buscamos: 
+Se eligió MLflow como la herramienta más adecuada para este caso de uso, ya que cumple con las características requeridas, entre ellas:
 
 - **Código abierto**
 - **Seguimiento de experimentos** : registra métricas, hiperparámetros, artefactos y configuraciones de entrenamiento.
@@ -32,7 +32,7 @@ Continuando con el enfoque de reproducibilidad, se registraron de manera sistem�
 
 Para ilustrar cómo se lleva a cabo la comparación de experimentos en la interfaz de usuario, se presenta una breve demostración. En ella se muestran diferentes experimentos y ejecuciones realizadas con diversas configuraciones, así como las herramientas disponibles para compararlos a partir de las métricas obtenidas en cada corrida.
 
-```{image} images/mlflow_demo_2.gif
+```{figure} /images/mlflow_demo_2.gif
 :alt: mlflow Demo
 :width: 400px
 :align: center
