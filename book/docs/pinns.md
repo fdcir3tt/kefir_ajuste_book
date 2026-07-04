@@ -12,17 +12,17 @@ El mecanismo de las redes neuronales informadas por física se puede seccionar e
 ```{math}
 :label: general_ode
 \begin{equation*}
-    \frac{dP}{dt} = f(t,P;\phi); \hspace{1mm} B(t,P) = g(t),
+    \frac{dy}{dt} = f(t,y;\phi); \hspace{1mm} B(t,y) = g(t),
 \end{equation*}
 ```
 
-donde $P$ representa la población en un instante dado, y $\phi$ parametros que caracterizan el sistema físico. 
+donde $y$ representa la población en un instante dado, y $\phi$ parametros que caracterizan el sistema físico. 
 
 Entonces, si quisieramos resolver este sistema, la red neuronal $\hat P$ vendría siendo una red con arquitectura de elección propia. Esta se somete bajo un entrenamiento usual de aprendizaje automático, el cambio rádicando en el uso de diferenciación automática para evaluar residuos de las ecuaciones diferenciales. Esto evita discretizaciones explícitas y permite trabajar con dominios continuos {cite}`Cuomo2022` y es necesario para evaluar componentes clave de la función de perdida. La forma de esta función de onda dependerá del tipo de problema estemos atacando: directo o inverso. 
 
-Un problema directo consistiría en determinar la evolución temporal de la población $P(t)$ a partir de la ecuación diferencial conocida junto con los parámetros $\phi$ previamente establecidos. En nuestro caso , esto implicaría resolver ecuaciones de crecimiento —como los modelos logístico o de Gompertz—{cite}`Zwietering1990` asumiendo valores fijos para parámetros como la tasa de crecimiento $r$, la capacidad de carga $m$ con condición inicial $P(t=0)$. En escenarios experimentales reales, muchos de estos parámetros no son directamente observables o pueden variar en función de fuerzas externas. Este planteamiento da lugar a un problema inverso, siendo que partimos de una curva y lo que se quiere inferir son los parámetros que generan esta curva partiendo de una ecuación diferencial.
+Un problema directo consistiría en determinar la evolución temporal de la población $y(t)$ a partir de la ecuación diferencial conocida junto con los parámetros $\phi$ previamente establecidos. En nuestro caso , esto implicaría resolver ecuaciones de crecimiento —como los modelos logístico o de Gompertz—{cite}`Zwietering1990` asumiendo valores fijos para parámetros como la tasa de crecimiento $r$, la capacidad de carga $m$ con condición inicial $y(t=0)$. En escenarios experimentales reales, muchos de estos parámetros no son directamente observables o pueden variar en función de fuerzas externas. Este planteamiento da lugar a un problema inverso, siendo que partimos de una curva y lo que se quiere inferir son los parámetros que generan esta curva partiendo de una ecuación diferencial.
 
-PINNs han demostrado ser particularmente eficaces para la formulación y resolución de problemas inversos{cite}`Farea2025,Pappu2025`, ya que permiten tratar los parámetros desconocidos de una ecuación diferencial como variables adicionales a optimizar durante el entrenamiento. En este marco, tanto la solución $\hat{P}(x)$ como los parámetros $\phi$ (por ejemplo, $r$, $m$ ) se parametrizan mediante la red neuronal. El procedimiento general consiste en imponer las ecuaciones gobernantes del crecimiento microbiano dentro de la función de pérdida, de modo que el residuo físico dependa explícitamente de los parámetros desconocidos. A partir de datos experimentales parciales —las series de tiempo del crecimiento de los gránulos de kéfir—, la red se entrena para encontrar simultáneamente una solución consistente con los datos y un conjunto de parámetros que satisfagan la estructura física del sistema.
+PINNs han demostrado ser particularmente eficaces para la formulación y resolución de problemas inversos{cite}`Farea2025,Pappu2025`, ya que permiten tratar los parámetros desconocidos de una ecuación diferencial como variables adicionales a optimizar durante el entrenamiento. En este marco, tanto la solución $\hat{y}(x)$ como los parámetros $\phi$ (por ejemplo, $r$, $m$ ) se parametrizan mediante la red neuronal. El procedimiento general consiste en imponer las ecuaciones gobernantes del crecimiento microbiano dentro de la función de pérdida, de modo que el residuo físico dependa explícitamente de los parámetros desconocidos. A partir de datos experimentales parciales —las series de tiempo del crecimiento de los gránulos de kéfir—, la red se entrena para encontrar simultáneamente una solución consistente con los datos y un conjunto de parámetros que satisfagan la estructura física del sistema.
 
 
 
@@ -42,17 +42,17 @@ El término asociado a las ecuaciones gobernantes se define como
 
 ```{math}
 :label: ode_loss
-\begin{equation*}
-\mathcal{L}_F(\theta,\phi)=\frac{1}{|C|}\sum_{x_i\in C}\Big|\Big|\frac{d\hat{P}_\theta}{dt}-f(x_i,\hat{P_\theta};\phi)\Big|\Big|^2,
+\begin{equation*} 
+\mathcal{L}_F(\theta,\phi)=\frac{1}{|C|}\sum_{x_i\in C}\Big|\Big|\frac{d\hat{y}_\theta}{dt}-f(x_i,\hat{y_\theta};\phi)\Big|\Big|^2,
 \end{equation*}
 ```
 
-donde $\hat{P}$ es la salida de la red neuronal,$C$ los puntos de colocación y $\phi$ corresponde a parámetros desconocidos que pueden ser inferidos durante el entrenamiento. Es decir, son variables que se estimaran junto con los parámetros de la red. De manera análoga, el término de condiciones iniciales y de frontera se expresa como
+donde $\hat{y}$ es la salida de la red neuronal,$C$ los puntos de colocación y $\phi$ corresponde a parámetros desconocidos que pueden ser inferidos durante el entrenamiento. Es decir, son variables que se estimaran junto con los parámetros de la red. De manera análoga, el término de condiciones iniciales y de frontera se expresa como
 
 ```{math}
 :label: boundary_loss
 \begin{equation*}
-\mathcal{L}_B(\theta)=\frac{1}{|B|}\sum_{x_i\in B}\Big|\Big|\mathcal{B}(\hat{P}_\theta,x_i)-g(x_i)\Big|\Big|^2,
+\mathcal{L}_B(\theta)=\frac{1}{|B|}\sum_{x_i\in B}\Big|\Big|\mathcal{B}(\hat{y}_\theta,x_i)-g(x_i)\Big|\Big|^2,
 \end{equation*}
 ```
 
@@ -61,7 +61,7 @@ donde $B$ asegurando que la solución aprendida sea consistente con las condicio
 ```{math}
 :label: data_loss
 \begin{equation*}
-    \mathcal{L}_D(\theta)=\frac{1}{|D|}\sum_{x_i\in D}\Big|\Big|\hat{P}_\theta(x_i)-x_i\Big|\Big|^2
+    \mathcal{L}_D(\theta)=\frac{1}{|D|}\sum_{x_i\in D}\Big|\Big|\hat{y}_\theta(x_i)-x_i\Big|\Big|^2
 \end{equation*},
 ```
 

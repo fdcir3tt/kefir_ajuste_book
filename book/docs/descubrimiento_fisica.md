@@ -9,7 +9,7 @@ Las redes neuronales informadas por física (PINNs) permiten integrar conocimien
 Bajo este enfoque, se asume que un conjunto de datos $X=\{C, \mathcal{D}\}$ sigue una dinámica conocida con pequeñas desviaciones. Esto se modela como:
 ```{math}
 :label: general_correction_eq
- \frac{dP}{dt} = f(t,P;\phi) +\delta(t,P,I,T;c_j)
+ \frac{dy}{dt} = f(t,y;\phi) +\delta(t,y,I,T;c_j)
 
 ```
 donde el término $\delta$ representa la contribución desconocida que se desea identificar(ver {cite}`BruntonKutz2019` (Cap. 14.2, pp. 524--525).
@@ -49,15 +49,15 @@ $$
 donde la función de residuos es:
 
 $$
-\mathcal{L}_F  = \sum_{t_i \in C_n}\frac{1}{2}\Big|\Big|R(\hat P_i,t_i;r,m)\Big|\Big|^2,
+\mathcal{L}_F  = \sum_{t_i \in C_n}\frac{1}{2}\Big|\Big|R(\hat y_i,t_i;r,m)\Big|\Big|^2,
 $$
 
 $$
-\mathcal{L}_D  =\sum_{t_i\in \mathcal{D}}\frac{1}{2}\Big|\Big|P_i-\hat P_i\Big|\Big|^2,
+\mathcal{L}_D  =\sum_{t_i\in \mathcal{D}}\frac{1}{2}\Big|\Big|y_i-\hat y_i\Big|\Big|^2,
 $$
 
 $$
-R(\hat P,t;c_j) = \frac{d\hat P}{dt} -f(\hat P,t;\phi)-\delta(t,P,I,T;c_j) .
+R(\hat y,t;c_j) = \frac{d\hat y}{dt} -f(\hat y,t;\phi)-\delta(t,y,I,T;c_j) .
 $$
 
 Primero, cargamos nuestros datos de entrada `(t,I,T)`: 
@@ -68,7 +68,7 @@ t0,tf = load_time_domain(dataset)
 
 X_train, y_train, X_test,y_test = split_train_data(dataset)
 ```
-Y se define el método `ode` que nos sirve como auxiliar de la función de residuos $R(\hat P,t;c_j)$:
+Y se define el método `ode` que nos sirve como auxiliar de la función de residuos $R(\hat y,t;c_j)$:
 ```python    
 
 def ode(x, y):

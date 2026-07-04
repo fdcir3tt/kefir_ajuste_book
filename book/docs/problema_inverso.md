@@ -1,17 +1,17 @@
 # Problema inverso
-En el modelado matemático del crecimiento microbiano, dijimos que un problema directo consiste en determinar la evolución temporal de la población $P(t)$ a partir de una ecuación diferencial conocida y un conjunto de parámetros biológicos $\phi$ previamente establecidos. En el contexto del kéfir de agua, esto implicaría resolver ecuaciones de crecimiento —como los modelos logístico o de Gompertz— asumiendo valores fijos para parámetros como la tasa de crecimiento $r$, la capacidad de carga $m$ y condiciones iniciales $P(t=0)$.
+En el modelado matemático del crecimiento microbiano, dijimos que un problema directo consiste en determinar la evolución temporal de la población $y(t)$ a partir de una ecuación diferencial conocida y un conjunto de parámetros biológicos $\phi$ previamente establecidos. En el contexto del kéfir de agua, esto implicaría resolver ecuaciones de crecimiento —como los modelos logístico o de Gompertz— asumiendo valores fijos para parámetros como la tasa de crecimiento $r$, la capacidad de carga $m$ y condiciones iniciales $y(t=0)$.
 
 Sin embargo, en escenarios experimentales reales, muchos de estos parámetros no son directamente observables o pueden variar en función de tratamientos externos, como el pretratamiento por ultrasonido. En estos casos, el interés principal no radica únicamente en predecir la dinámica poblacional, sino en inferir los parámetros biológicos efectivos que gobiernan el crecimiento microbiano bajo distintas condiciones. Este planteamiento da lugar a un problema inverso, siendo que partimos de una curva y lo que se quiere inferir son los parámetros que generan esta curva dada una ecuación diferencial.
 
-Las Redes Neuronales Informadas por Modelos Físicos (PINNs) han demostrado ser particularmente eficaces para la formulación y resolución de **problemas inversos**, ya que permiten tratar los parámetros desconocidos de la ecuación diferencial como variables adicionales a optimizar durante el entrenamiento. En este marco, tanto la solución $\hat{P}(t)$ como los parámetros biológicos $\phi$ (por ejemplo, $r$, $m$ o parámetros dependientes del ultrasonido como la intensidad $I$ y periodo de exposición $T$) se parametrizan mediante la red neuronal.
+Las Redes Neuronales Informadas por Modelos Físicos (PINNs) han demostrado ser particularmente eficaces para la formulación y resolución de **problemas inversos**, ya que permiten tratar los parámetros desconocidos de la ecuación diferencial como variables adicionales a optimizar durante el entrenamiento. En este marco, tanto la solución $\hat{y}(t)$ como los parámetros biológicos $\phi$ (por ejemplo, $r$, $m$ o parámetros dependientes del ultrasonido como la intensidad $I$ y periodo de exposición $T$) se parametrizan mediante la red neuronal.
 
-El procedimiento general consiste en imponer las ecuaciones gobernantes del crecimiento microbiano dentro de la función de pérdida, de modo que el residuo físico dependa explícitamente de los parámetros desconocidos. Entonces, definimos una función de residuos $R(\hat P,x;\phi)$:
+El procedimiento general consiste en imponer las ecuaciones gobernantes del crecimiento microbiano dentro de la función de pérdida, de modo que el residuo físico dependa explícitamente de los parámetros desconocidos. Entonces, definimos una función de residuos $R(\hat y,x;\phi)$:
 
 $$
-R(\hat P,x;\phi) = \frac{d\hat P}{dt} -{f}(\hat P,x;\phi) ,
+R(\hat y,x;\phi) = \frac{d\hat y}{dt} -{f}(\hat y,x;\phi) ,
 $$
 
-donde $f( P,t;\phi) $ representa la función del lado derecho la ecuación diferencial ordinaria {eq}`general_ode`.
+donde $f( y,t;\phi) $ representa la función del lado derecho la ecuación diferencial ordinaria {eq}`general_ode`.
 
 
 A partir de datos experimentales parciales —las series de tiempo del crecimiento de los gránulos de kéfir—, la red se entrena para encontrar simultáneamente una solución consistente con los datos y un conjunto de parámetros que satisfagan la estructura física del sistema.
@@ -31,24 +31,24 @@ $$
 donde se asume en el caso de modelo Verhulst:
 
 $$
-\mathcal{L}_F  = \sum_{t_i \in C_n}\frac{1}{2}\Big|\Big|R(\hat P_i,t_i;r,m)\Big|\Big|^2
+\mathcal{L}_F  = \sum_{t_i \in C_n}\frac{1}{2}\Big|\Big|R(\hat y_i,t_i;r,m)\Big|\Big|^2
 $$
 
 $$
-\mathcal{L}_D  =\sum_{t_i\in \mathcal{D}}\frac{1}{2}\Big|\Big|P_i-\hat P_i\Big|\Big|^2
+\mathcal{L}_D  =\sum_{t_i\in \mathcal{D}}\frac{1}{2}\Big|\Big|y_i-\hat y_i\Big|\Big|^2
 $$
 
 $$
-R(\hat P,t;r,m) = \frac{d\hat P}{dt} -r\hat P\Big( 1- \frac{1}{m}\hat P \Big) ,
+R(\hat y,t;r,m) = \frac{d\hat y}{dt} -r\hat y\Big( 1- \frac{1}{m}\hat y \Big) ,
 $$
 
 
-y la derivada de $\hat P$ se cálcula utilizando un método númerico de diferenciación automátizada. Aquí, queremos estimar valores puntuales de los parametros $\kappa$ y $L$.
+y la derivada de $\hat y$ se cálcula utilizando un método númerico de diferenciación automátizada. Aquí, queremos estimar valores puntuales de los parametros $\kappa$ y $L$.
 
 En resumen, las PINNs ofrecen un marco unificado para abordar problemas directos e inversos de manera coherente, integrando datos experimentales y conocimiento físico-biológico. En este proyecto, el interés principal se centra en la resolución del problema inverso, orientado a la identificación de parámetros y dinámicas ocultas asociadas al crecimiento microbiano del kéfir de agua bajo distintos pretratamientos.
 
 ## Implementación de DeepXDE 
-Con el apoyo de la paquetería [DeepXDE](), podemos lograr esto definiendo las variables `kappa`  y `L` como variables entrenables partiendo de un valor inicial que queramos de cual partir: 
+Con el apoyo de la paquetería [DeepXDE](https://deepxde.readthedocs.io/en/latest/index.html), podemos lograr esto definiendo las variables `kappa`  y `L` como variables entrenables partiendo de un valor inicial que queramos de cual partir: 
 
 ```python
 import deepxde as dde
