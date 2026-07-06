@@ -34,7 +34,7 @@ Para ilustrar cómo se lleva a cabo la comparación de experimentos en la interf
 
 ```{figure} /images/mlflow_demo_2.gif
 :alt: mlflow Demo
-:width: 400px
+:width: 1000px
 :align: center
 ```
 
