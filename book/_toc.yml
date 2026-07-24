@@ -7,8 +7,8 @@ chapters:
   - file: docs/pinns
   - file: docs/entrenamiento
   - file: docs/mlflow
-  - file: docs/problema_directo
   - file: docs/problema_inverso
   - file: docs/descubrimiento_fisica
+  - file: docs/resultados
   - file: docs/bibliografia
   - file: api
