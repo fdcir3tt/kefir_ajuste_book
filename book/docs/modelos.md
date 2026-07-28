@@ -65,13 +65,14 @@ $$
 \end{equation*}
 $$
 
-
 donde $k_\beta$ y $k_\delta$ son constantes reales positivas. Este modelo describe adecuadamente la dinámica sigmoide observada en muchos procesos fermentativos, incluyendo el de granulos de kéfir {cite}`Zajek2010,Baltazar-Larios2025`, permitiendo además definir parámetros biológicos interpretables, como la rapidez máxima de crecimiento $\mu_m$ y el tiempo de retraso $\lambda$ {cite}`Zwietering1990`. 
 
 ## Ecuaciones interpretables
 
 A continuación, veremos cómo obtener dichos parámetros de 3 modelos típicos
-en la literatura de epidemología. Primero, $\mu_m$,$\lambda$ se definen de la siguiente forma: {cite} 
+en la literatura de epidemología. Nos interesan las reparametrizaciones de estos modelos para comprender con mayor facilidad. A continuación se muestra cómo podemos llegar a estas reparametrizaciones interpretables.  
+ 
+Primero, $\mu_m$,$\lambda$ se definen como "máxima taza de crecimiento específico" y "tiempo de retraso" respectivamente {cite}`Zwietering1990`, y se pueden representar estas definiciones con las expresiones:  
 
 $$
 \mu_m := \text{arg}\Bigg[\text{max}\Bigg( \frac{dy}{dt}\Bigg)\Bigg] 
@@ -82,7 +83,9 @@ $$
 \lambda :=\text{arg} \Bigg[ L \cap\Bigg \{(t,y = 0): t\in\mathbb{R}\Bigg\} \Bigg] ,
 $$
 
-donde $L$ es la recta tangencial a la curva en el punto de inflección. Tomemos como base el modelo de Verhulst, cuya ecuación diferencial tiene la forma de {eq}`verhulst_eq` para cálcular primero $\mu_m$:
+donde $L$ es la recta tangencial a la curva en el punto de inflección.
+
+Tomando como ejemplo el modelo de Verhulst, cuya ecuación diferencial tiene la forma de {eq}`verhulst_eq` para cálcular primero $\mu_m$, partimos de:
 
 ```{math}
 :label: mu_proc
@@ -150,29 +153,19 @@ $$
 De similar forma podemos reescribir los modelos típicos en términos de los parámetros interpretables{cite}`Zwietering1990`:
 
 
-| Nombre   |          Ecuación típica            |      Ecuación con términos $\mu_m$,$\lambda$     |
+| Nombre   |          Ecuación típica            |      Ecuación con términos interpretables    |
 |----------|-------------------------------------|----------------------------------------|
-| Verhulst | $y =\frac{a}{1+\text{exp}(b-cx)}$   | $\frac{A}{1+\text{exp}(\frac{4\mu_m}{A}(\lambda-t)+2)}$  |
-| Gompertz | $y=a\cdot\text{exp}[-\text{exp}(b-cx)]$ | $y=A\cdot\text{exp}\{-\text{exp}[\frac{4\mu_m}{A}(\lambda-t)+1]\}$  |
-| Richards | $y=a\cdot\{1+\nu \cdot \text{exp}[k(\tau-x)]\}^{-\frac{1}{\nu}}$   | $y=A\cdot\{1+\nu \cdot \text{exp}(1+\nu) \cdot \text{exp}[\frac{\mu_m}{A}\cdot(1+\nu)^{(1+\frac{1}{\nu})}\cdot(\lambda - t)]\}^{-\frac{1}{\nu}}$  |
+| Verhulst | $y(x) =\frac{a}{1+e^{(b-cx)}}$   |  $y(t)=\frac{A}{1+e^{(\frac{4\mu_m}{A}(\lambda-t)+2)}}$  |
+| Gompertz | $y(x)=a e^{-e^{(b-cx)}}$ | $y(t)=Ae^{-e^{\frac{4\mu_m}{A}(\lambda-t)+1}}$  |
+| Richards | $y(x)=a(1+\nu  e^{k(\tau-x)})^{-\frac{1}{\nu}}$   | $y(t)=A(1+\nu e^{(1+\nu)} \cdot e^{\frac{\mu_m}{A}\cdot(1+\nu)^{(1+\frac{1}{\nu})}\cdot(\lambda - t)})^{-\frac{1}{\nu}}$  |
                                         
 ## Límites de modelos 
 
-Sin embargo, estos modelos, (incluyendo el modelo logístico) suponen una respuesta simétrica alrededor del punto de máxima rapidez, lo cual no siempre se observa en cultivos microbianos complejos.
+Estos modelos suponen una respuesta simétrica alrededor del punto de máxima rapidez, lo cual no se observa en la figura {figure}``. Si bien estos modelos pueden aproximar fases iniciales de crecimiento microbiano, resultan insuficiente para describir sistemas reales como el abordado por las series de tratamiento, ya que se presentan efectos inducidos. Tanto el modelo logístico como el de Gompertz dependen de supuestos funcionales específicos y parámetros constantes como se tocó previamente, lo que limita su capacidad para representar fenómenos no lineales como el que tenemos a la mano. En el caso particular de los experimentos con tratamiento, los efectos no siempre pueden ser capturados adecuadamente por modelos clásicos con parámetros fijos o formas funcionales predefinidas.
 
+Es por eso que, las redes neuronales informadas por modelos físicos (Physics-Informed Neural Networks, PINNs) representan una alternativa robusta para el análisis del crecimiento microbiano. PINNs permiten integrar ecuaciones diferenciales ordinarias —como las del modelo de Verhulst, Gompertz o de Richards directamente en el proceso de entrenamiento de la red, al mismo tiempo que aprenden dinámicas a partir de datos experimentales {cite}`Cuomo2022,Pappu2025`. 
 
-El modelo de Gompertz ofrece una alternativa más flexible para describir el crecimiento microbiano asimétrico, característica común en fermentaciones reales. Sus parámetros permiten capturar de manera más realista las fases de adaptación, crecimiento acelerado y saturación. En su forma matemática tenemos:
-
-
-```{math}
-:label: gompertz
-\frac{dy}{dt}=ry\hspace{0.5mm}ln(\frac{m}{y}).
-``` 
-
-
-Si bien este modelo puede aproximar fases iniciales de crecimiento microbiano, resulta insuficiente para describir sistemas reales como el abordado por las series de tratamiento, ya que se presentan efectos inducidos. Tanto el modelo logístico como el de Gompertz dependen de supuestos funcionales específicos y parámetros constantes, lo que limita su capacidad para representar fenómenos no lineales como el que tenemos a la mano. En el caso particular de los experimentos con tratamiento, los efectos no siempre pueden ser capturados adecuadamente por modelos clásicos con parámetros fijos o formas funcionales predefinidas.
-
-Es por eso que, las redes neuronales informadas por modelos físicos (Physics-Informed Neural Networks, PINNs) representan una alternativa robusta para el análisis del crecimiento microbiano. PINNs permiten integrar ecuaciones diferenciales poblacionales —como las del modelo logístico o de Gompertz directamente en el proceso de entrenamiento de la red, al mismo tiempo que aprenden dinámicas no observables a partir de datos experimentales {cite}`Cuomo2022,Pappu2025`. De esta forma, es posible identificar parámetros efectivos dependientes del pretratamiento, modelar dinámicas ocultas y capturar desviaciones respecto a los modelos clásicos, incluso en escenarios con datos escasos, como las series de tiempo disponibles para el crecimiento de gránulos de kéfir de agua.
+De esta forma, es posible identificar parámetros efectivos dependientes del pretratamiento, modelar dinámicas ocultas y capturar desviaciones respecto a los modelos clásicos, incluso en escenarios con datos escasos $(n_{obs}<200)$, como las series de tiempo disponibles para el crecimiento de gránulos de kéfir de agua ($n_{obs}=75$).
 
 Este enfoque híbrido combina la interpretabilidad de los modelos tradicionales con la flexibilidad de las técnicas de aprendizaje profundo, ofreciendo una herramienta adecuada para caracterizar y comparar el efecto del ultrasonido sobre el crecimiento microbiano del kéfir.
 
