@@ -26,7 +26,7 @@ PINNs han demostrado ser particularmente eficaces para la formulación y resoluc
 
 
 
-# Construcción de función de pérdida 
+# Función de pérdida 
 La idea central de las PINNs se basa en la construcción de una función de pérdida compuesta, diseñada para equilibrar simultáneamente el ajuste a los datos experimentales y el cumplimiento de las ecuaciones diferenciales que gobiernan el crecimiento microbiano. La formulación típica de la función de perdida para problemas inversos viene siendo:
 
 ```{math}

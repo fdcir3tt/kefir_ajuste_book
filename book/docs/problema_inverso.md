@@ -16,7 +16,7 @@ donde $f( y,t;\phi) $ representa la función del lado derecho la ecuación difer
 
 A partir de datos experimentales parciales —las series de tiempo del crecimiento de los gránulos de kéfir—, la red se entrena para encontrar simultáneamente una solución consistente con los datos y un conjunto de parámetros que satisfagan la estructura física del sistema.
 
-## Construcción de la función de perdida
+## Componentes de la función de perdida
 
 La principal diferencia entre la formulación de problemas directos e inversos dentro del marco PINN radica en la función de pérdida, que en el caso inverso incorpora explícitamente términos asociados a los datos observados. Una formulación típica es {eq}`total_loss_function`, donde $\theta$ son los parámetros de la red neuronal y $\phi$ representa los parámetros físicos o biológicos a estimar. 
 
