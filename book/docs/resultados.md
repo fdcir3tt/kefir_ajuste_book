@@ -49,6 +49,10 @@ El mejor resultado del proceso de descubrimiento de física vino siendo producto
 :width: 72%
 ```
 
+```{figure} /images/deltas.png
+:width: 72%
+```
+
 | Índice | Valor |Unidades|
 |--------|-------|--------|
 | 1 | 2.0700e-02 |(g/cm3)|
@@ -57,26 +61,73 @@ El mejor resultado del proceso de descubrimiento de física vino siendo producto
 | 4 | 7.5400e-06 |(g/cm3)/(W/cm2)(s) |
 
 
-| Métrica                               | Valor                                                                                                                                    |
-|---------------------------------------|------|
-| Root Mean Square Error (RMSE)         | 2.9640  | |
-| Mean Absolute Error (MAE)             | 2.4397  | |
-| Mean Absolute Percentage Error (MAPE) | 8.0278  | 
-| Akaike Information Criterion (AIC)    | 10742.5966                           
-| Bayesian Information Criterion (BIC)  | 14534.2054                                  
-| Coeficiente de determinación ($R^2$)  |  0.8961  |
 
 
-## Conclusiones
+## Rendimiento de mejor modelo
+
+
+
+| Treatment                           |     RMSE |      MAE |     MAPE |       R² |          AIC |          BIC |
+| ----------------------------------- | -------: | -------: | -------: | -------: | -----------: | -----------: |
+| Testigo (T1) Kéfir sin ultrasonicar | 4.214467 | 3.666482 | 9.483010 | 0.789970 | 10753.155692 | 14544.764519 |
+| 15 seg. 20 W/cm² (T2)               | 2.005311 | 1.716217 | 5.159485 | 0.952449 | 10730.873978 | 14522.482805 |
+| 1 min. 20 W/cm² (T3)                | 4.450155 | 3.878183 | 9.750573 | 0.765822 | 10754.788166 | 14546.396993 |
+| 15 seg. 34 W/cm² (T4)               | 4.517139 | 3.859970 | 9.680506 | 0.758720 | 10755.236363 | 14546.845190 |
+| 1 min. 34 W/cm² (T5)                | 2.964044 | 2.439785 | 8.027888 | 0.896112 | 10742.596637 | 14534.205464 |
+
+
+| Modelo      |              RMSE |               MAE |              MAPE |             (R^2) |
+| ------------------------- | ----------------: | ----------------: | ----------------: | ----------------: |
+| NN    | 5.6739| 4.8617 | 12.2258% | 0.6193|
+| PINN  |            2.9640 |            2.4397 |           8.0278% |            0.8961 |
+
+
+
+```{figure} /images/pinn_predictions/pinn_pred_1.png
+:width: 72%
+```
+```{figure} /images/pinn_predictions/pinn_pred_2.png
+:width: 72%
+```
+```{figure} /images/pinn_predictions/pinn_pred_3.png
+:width: 72%
+```
+```{figure} /images/pinn_predictions/pinn_pred_4.png
+:width: 72%
+```
+```{figure} /images/pinn_predictions/pinn_pred_5.png
+:width: 72%
+```
+
+```{figure} /images/pinn_residuals.png
+:width: 72%
+```
+
+## Bandas de confianza
+
+```{figure} /images/mcmc.png
+:width: 72%
+```
+```{figure} /images/posterior_distributions.png
+:width: 72%
+```
+
+## Discusión
 
 El modelo obtenido mediante la función de corrección de **intensidad por periodos** presentó el mejor desempeño entre las configuraciones evaluadas, con resultados que respaldan su validez tanto desde el punto de vista estadístico como físico.
 
-En términos de ajuste, el coeficiente de determinación ($R^2 = 0.8961$) indica que el modelo explica una proporción considerable de la varianza observada en la concentración de biomasa, lo que sugiere una representación adecuada del fenómeno de fermentación bajo las condiciones experimentales consideradas. El error cuadrático medio (RMSE = 2.9640) y el error absoluto medio (MAE = 2.4397) muestran una desviación moderada respecto a los valores observados, mientras que el error porcentual absoluto medio (MAPE = 8.0278%) confirma que dicha desviación se mantiene dentro de un margen razonable en relación con la escala del problema {cite}`Lewis1982industrial`(ver p.40). 
+En términos de ajuste, el coeficiente de determinación ($R^2 = 0.8961$) indica que el modelo explica una proporción considerable de la varianza observada en la concentración de biomasa, lo que sugiere una representación adecuada del fenómeno de fermentación bajo las condiciones experimentales consideradas. El error cuadrático medio (RMSE = 2.9640) y el error absoluto medio (MAE = 2.4397) muestran una desviación moderada respecto a los valores observados, mientras que el error porcentual absoluto medio (MAPE = 8.0278%) confirma que dicha desviación se mantiene dentro de un margen razonable en relación con la escala del problema {cite}`Lewis1982industrial` (ver p. 40).
 
 Desde una perspectiva de interpretabilidad física, la superioridad del ajuste basado en intensidad por periodos resulta consistente con la naturaleza del proceso experimental. Este resultado es coherente con el diseño experimental, en el cual el sistema fue perturbado en intervalos de tiempo fijos, aplicando una intensidad y un periodo de exposición constantes en cada tratamiento. Al incorporar explícitamente esta interacción entre intensidad y periodo, el modelo refleja de manera más fiel el mecanismo mediante el cual la ultrasonicación afecta el crecimiento de los gránulos de kéfir, lo que explica su mejor desempeño frente a formulaciones alternativas.
 
 Estos resultados no solo validan cuantitativamente el modelo propuesto, sino que también refuerzan la hipótesis de que la relación funcional entre intensidad y periodo de exposición constituye un factor determinante en la dinámica de fermentación observada, ofreciendo así una base sólida para la interpretación física del fenómeno estudiado.
 
-Sin embargo,se tienen algunas limitaciones del presente estudio. En primer lugar, el modelo fue ajustado y validado sobre un rango acotado de combinaciones de intensidad y periodo de exposición, por lo que su capacidad de extrapolación a condiciones experimentales fuera de este rango no han sido evaluada. Asimismo, el tamaño de la muestra utilizada para el entrenamiento del modelo, si bien suficiente para obtener un ajuste estadísticamente aceptable, limita la robustez de las estimaciones de los coeficientes, particularmente en lo relativo a su significancia individual. 
+Sin embargo, el presente estudio tiene algunas limitaciones. En primer lugar, el modelo fue ajustado y validado sobre un rango acotado de combinaciones de intensidad y periodo de exposición, por lo que su capacidad de extrapolación a condiciones experimentales fuera de este rango no ha sido evaluada. Asimismo, el tamaño de la muestra utilizada para el entrenamiento del modelo, si bien suficiente para obtener un ajuste estadísticamente aceptable, limita la robustez de las estimaciones de los coeficientes, particularmente en lo relativo a su significancia individual. Finalmente, aunque las métricas de error se encuentran dentro de umbrales razonables, no se descarta la posibilidad de cierto grado de sobreajuste dado el número de parámetros del modelo en relación con la cantidad de observaciones disponibles.
 
-Finalmente, aunque las métricas de error se encuentran dentro de umbrales razonables, no se descarta la posibilidad de cierto grado de sobreajuste dado el número de parámetros del modelo en relación con la cantidad de observaciones disponibles. Futuros trabajos podrían abordar estas limitaciones mediante la incorporación de un conjunto de datos más amplio y diverso, así como la validación cruzada del modelo bajo condiciones experimentales adicionales.
+## Conclusiones
+
+El modelo basado en la corrección de intensidad por periodos demostró ser la configuración con mejor desempeño para representar la dinámica de crecimiento de los gránulos de kéfir de agua bajo tratamiento de ultrasonido, con un ajuste estadísticamente sólido ($R^2 = 0.8961$, MAPE = 8.03%) y una interpretación física coherente con el diseño experimental. Estos resultados confirman que la interacción entre intensidad y periodo de exposición es un factor determinante en la dinámica de fermentación observada.
+
+
+
+
